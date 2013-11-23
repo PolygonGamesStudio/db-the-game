@@ -3,6 +3,7 @@
 #from local.py
 import datetime
 import itertools
+from random import choice
 from local import user, password, database
 import requests
 import pymysql
@@ -23,11 +24,11 @@ WORDS = []
 def get_word():
     global WORDS
     if WORDS:
-        return str(choice(WORDS))
+        return str(choice(WORDS)) + str(choice(WORDS))
     else:
         response = requests.get(WORD_SITE)
         WORDS += response.content.splitlines()
-        return str(choice(WORDS))
+        return str(choice(WORDS)) + str(choice(WORDS))
 
 
 connect = pymysql.connect(host='127.0.0.1', port=3306, user=user, passwd=password, db=database)
@@ -59,10 +60,10 @@ def fill_user_table():
                                         Email,
                                         is_admin,
                                         is_active)
-                       VALUES ('{0}','{1}','{2}','{3}',{4},{5},'{6}','{7}','{8}')""".format(first_name, last_name, login, passwd, reg_date, birth_date, email, is_admin, is_active)
+                       VALUES ('{0}','{1}','{2}','{3}',{4},{5},'{6}','{7}','{8}')"""\
+            .format(first_name, last_name, login, passwd, reg_date, birth_date, email, is_admin, is_active)
         print(sql_query)
         cursor.execute(sql_query)
-
 
 if __name__ == '__main__':
     fill_user_table()

@@ -29,7 +29,7 @@ Games_columns = ('Match_Match_id', 'Character_Character_id')
 Match_columns = ('Match_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
 Class_columns = ('Class_id', 'Type')
 Ability_columns = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
-
+Item = ('Item_id', 'Title', 'Title', 'Character_Character_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
 
 
 def get_word():

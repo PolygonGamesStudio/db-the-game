@@ -25,21 +25,21 @@ WORDS = []
 def get_word():
     global WORDS
     if WORDS:
-        return str(choice(WORDS)) + str(choice(WORDS))
+        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")  # FIXME: utf8 get
     else:
         response = requests.get(WORD_SITE)
         WORDS += response.content.splitlines()
-        return str(choice(WORDS)) + str(choice(WORDS))
+        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")  # FIXME: utf8 get
 
 
-connect = pymysql.connect(host='127.0.0.1', port=3306, user=user, passwd=password, db=database)
+connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
 cursor = connect.cursor()
 cursor.execute("SHOW TABLES;")
 print(cursor.description)
 for row in cursor:
     print(row)
-
-
+    
+    
 def fill_insert_sql(column_dict, table ):
     try:
         sql_query = 'INSERT INTO '+str(table)+"(" + ", ".join(column_dict.keys()) + ")" + ' VALUES "' +\
@@ -50,6 +50,8 @@ def fill_insert_sql(column_dict, table ):
         return True
     except ProgrammingError:
         return False
+
+
 
 if __name__ == '__main__':
     fill_insert_sql({"first_name": "alexei", "last_name": 'maratlanov', 'is_active': '1'}, 'User')

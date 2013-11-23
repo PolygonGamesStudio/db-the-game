@@ -24,11 +24,13 @@ WORDS = []
 def get_word():
     global WORDS
     if WORDS:
-        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")  # FIXME: utf8 get
+        #return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")  # FIXME: utf8 get
+        return choice(WORDS) + choice(WORDS)
     else:
         response = requests.get(WORD_SITE)
-        WORDS += response.content.splitlines()
-        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")
+        WORDS += response.content.splitlines().decode("utf-8")
+        #return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")
+        return choice(WORDS) + choice(WORDS)
 
 
 connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)

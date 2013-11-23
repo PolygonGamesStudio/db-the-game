@@ -1,0 +1,203 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`User` (
+  `User_id` INT(11) NOT NULL ,
+  `Firstname` VARCHAR(45) NOT NULL ,
+  `Lastname` VARCHAR(45) NOT NULL ,
+  `Login` VARCHAR(45) NOT NULL ,
+  `Password` VARCHAR(45) NOT NULL ,
+  `Registration_date` DATETIME NOT NULL ,
+  `Last_login_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `Birtday_date` DATE NOT NULL ,
+  `Email` VARCHAR(45) NOT NULL ,
+  `is_admin` TINYINT(1) NOT NULL ,
+  `is_active` TINYINT(1) NOT NULL ,
+  PRIMARY KEY (`User_id`) ,
+  UNIQUE INDEX `Login_UNIQUE` (`Login` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Character` (
+  `Character_id` INT(11) NOT NULL ,
+  `Name` VARCHAR(45) NULL DEFAULT NULL ,
+  `Level` INT(11) NOT NULL DEFAULT 0 ,
+  `User_User_id` INT(11) NOT NULL ,
+  `Characteristics_Characteristics_id` INT(11) NOT NULL ,
+  `Class_Class_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`Character_id`) ,
+  UNIQUE INDEX `Name_UNIQUE` (`Name` ASC) ,
+  INDEX `fk_Character_User` (`User_User_id` ASC) ,
+  INDEX `fk_Character_Characteristics1` (`Characteristics_Characteristics_id` ASC) ,
+  INDEX `fk_Character_Class1` (`Class_Class_id` ASC) ,
+  CONSTRAINT `fk_Character_User`
+    FOREIGN KEY (`User_User_id` )
+    REFERENCES `gamedb`.`User` (`User_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Character_Characteristics1`
+    FOREIGN KEY (`Characteristics_Characteristics_id` )
+    REFERENCES `gamedb`.`Characteristics` (`Characteristics_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Character_Class1`
+    FOREIGN KEY (`Class_Class_id` )
+    REFERENCES `gamedb`.`Class` (`Class_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Item` (
+  `Item_id` INT(11) NOT NULL ,
+  `Title` VARCHAR(45) NULL DEFAULT NULL ,
+  `Description` TEXT NULL DEFAULT NULL ,
+  `Character_Character_id` INT(11) NOT NULL ,
+  `Amount` INT(11) NULL DEFAULT NULL ,
+  `Characteristics_Characteristics_id` INT(11) NOT NULL ,
+  `Item_type` INT(11) NULL DEFAULT NULL ,
+  PRIMARY KEY (`Item_id`) ,
+  INDEX `fk_Item_Character1` (`Character_Character_id` ASC) ,
+  INDEX `fk_Item_Characteristics1` (`Characteristics_Characteristics_id` ASC) ,
+  CONSTRAINT `fk_Item_Character1`
+    FOREIGN KEY (`Character_Character_id` )
+    REFERENCES `gamedb`.`Character` (`Character_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Item_Characteristics1`
+    FOREIGN KEY (`Characteristics_Characteristics_id` )
+    REFERENCES `gamedb`.`Characteristics` (`Characteristics_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Characteristics` (
+  `Characteristics_id` INT(11) NOT NULL ,
+  `Health` INT(11) NULL DEFAULT NULL ,
+  `Armor` INT(11) NULL DEFAULT NULL ,
+  `Damage` INT(11) NULL DEFAULT NULL ,
+  `Mana` INT(11) NULL DEFAULT NULL ,
+  PRIMARY KEY (`Characteristics_id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Match` (
+  `Match_id` INT(11) NOT NULL ,
+  `Title` VARCHAR(45) NOT NULL ,
+  `Date_begin` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `Date_end` TIMESTAMP NULL DEFAULT NULL ,
+  `Winner_id` INT(11) NOT NULL ,
+  `Type` VARCHAR(45) NULL DEFAULT NULL ,
+  PRIMARY KEY (`Match_id`) ,
+  INDEX `fk_Match_Character1` (`Winner_id` ASC) ,
+  CONSTRAINT `fk_Match_Character1`
+    FOREIGN KEY (`Winner_id` )
+    REFERENCES `gamedb`.`Character` (`Character_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Games` (
+  `Match_Match_id` INT(11) NOT NULL ,
+  `Character_Character_id` INT(11) NOT NULL ,
+  INDEX `fk_Match_has_Character_Character1` (`Character_Character_id` ASC) ,
+  INDEX `fk_Match_has_Character_Match1` (`Match_Match_id` ASC) ,
+  CONSTRAINT `fk_Match_has_Character_Match1`
+    FOREIGN KEY (`Match_Match_id` )
+    REFERENCES `gamedb`.`Match` (`Match_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Match_has_Character_Character1`
+    FOREIGN KEY (`Character_Character_id` )
+    REFERENCES `gamedb`.`Character` (`Character_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Class` (
+  `Class_id` INT(11) NOT NULL ,
+  `Type` VARCHAR(45) NULL DEFAULT NULL ,
+  PRIMARY KEY (`Class_id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Ability` (
+  `Ability_id` INT(11) NOT NULL ,
+  `Class_Class_id` INT(11) NOT NULL ,
+  `Characteristics_Characteristics_id` INT(11) NOT NULL ,
+  `Title` VARCHAR(45) NULL DEFAULT NULL ,
+  `Description` TEXT NULL DEFAULT NULL ,
+  PRIMARY KEY (`Ability_id`) ,
+  INDEX `fk_Ability_Class1` (`Class_Class_id` ASC) ,
+  INDEX `fk_Ability_Characteristics1` (`Characteristics_Characteristics_id` ASC) ,
+  CONSTRAINT `fk_Ability_Class1`
+    FOREIGN KEY (`Class_Class_id` )
+    REFERENCES `gamedb`.`Class` (`Class_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Ability_Characteristics1`
+    FOREIGN KEY (`Characteristics_Characteristics_id` )
+    REFERENCES `gamedb`.`Characteristics` (`Characteristics_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `gamedb`.`Set` (
+  `Set_id` INT(11) NOT NULL ,
+  `Head_Item_id` INT(11) NOT NULL ,
+  `Body_Item_id1` INT(11) NOT NULL ,
+  `Special_Item_id2` INT(11) NOT NULL ,
+  `Weapon_Item_id3` INT(11) NOT NULL ,
+  `Character_Character_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`Set_id`, `Character_Character_id`) ,
+  INDEX `fk_Set_Item1` (`Head_Item_id` ASC) ,
+  INDEX `fk_Set_Item2` (`Body_Item_id1` ASC) ,
+  INDEX `fk_Set_Item3` (`Special_Item_id2` ASC) ,
+  INDEX `fk_Set_Item4` (`Weapon_Item_id3` ASC) ,
+  INDEX `fk_Set_Character1` (`Character_Character_id` ASC) ,
+  CONSTRAINT `fk_Set_Item1`
+    FOREIGN KEY (`Head_Item_id` )
+    REFERENCES `gamedb`.`Item` (`Item_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Set_Item2`
+    FOREIGN KEY (`Body_Item_id1` )
+    REFERENCES `gamedb`.`Item` (`Item_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Set_Item3`
+    FOREIGN KEY (`Special_Item_id2` )
+    REFERENCES `gamedb`.`Item` (`Item_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Set_Item4`
+    FOREIGN KEY (`Weapon_Item_id3` )
+    REFERENCES `gamedb`.`Item` (`Item_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Set_Character1`
+    FOREIGN KEY (`Character_Character_id` )
+    REFERENCES `gamedb`.`Character` (`Character_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

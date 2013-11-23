@@ -24,14 +24,14 @@ WORDS = []
 def get_word():
     global WORDS
     if WORDS:
-        return str(choice(WORDS)) + str(choice(WORDS))
+        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")  # FIXME: utf8 get
     else:
         response = requests.get(WORD_SITE)
         WORDS += response.content.splitlines()
-        return str(choice(WORDS)) + str(choice(WORDS))
+        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")
 
 
-connect = pymysql.connect(host='127.0.0.1', port=3306, user=user, passwd=password, db=database)
+connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
 cursor = connect.cursor()
 cursor.execute("SHOW TABLES;")
 print(cursor.description)
@@ -41,16 +41,16 @@ for row in cursor:
 
 def fill_user_table():
     for _ in itertools.repeat(None, USER_AMOUNT):
-        first_name = 'alexei'
-        last_name = 'maratlanov'
-        login = 'flexo1'
-        passwd = 'password'
+        first_name = get_word()
+        last_name = get_word()
+        login = get_word()
+        passwd = get_word()
         now = datetime.datetime(2009, 5, 5)
         reg_date = now.date().isoformat()
         birth_date = now.date().isoformat()
-        email = 'alex@gmail.com'
-        is_admin = '1'
-        is_active = '1'
+        email = get_word() + '@' + get_word()
+        is_admin = choice(['1', '2'])
+        is_active = choice(['1', '2'])
         sql_query = """INSERT INTO User(Firstname,
                                         Lastname,
                                         Login,
@@ -64,6 +64,7 @@ def fill_user_table():
             .format(first_name, last_name, login, passwd, reg_date, birth_date, email, is_admin, is_active)
         print(sql_query)
         cursor.execute(sql_query)
+    connect.commit()
 
 if __name__ == '__main__':
     fill_user_table()

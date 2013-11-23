@@ -1,5 +1,6 @@
 #unicoding = utf-8
 
-#привет
+#from local.py
+from local import user, password
 
-
+print(user, password)

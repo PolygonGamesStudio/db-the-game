@@ -3,4 +3,12 @@
 #from local.py
 from local import user, password
 
-print(user, password)
+USER_AMOUNT = 1000
+CHARACTER_AMOUNT = 1000
+MATCH_AMOUNT = 1000
+SET_AMOUNT = 1000
+ITEM_AMOUNT = 1000
+CHARACTERISTICS_AMOUNT = 1000
+ABILITY_AMOUNT = 1000
+CLASS_AMOUNT = 1000
+

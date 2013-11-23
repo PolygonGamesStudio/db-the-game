@@ -1,6 +1,7 @@
 #unicoding = utf-8
 
 #from local.py
+from _sqlite3 import ProgrammingError
 import datetime
 import itertools
 from random import choice
@@ -39,31 +40,16 @@ for row in cursor:
     print(row)
 
 
-def fill_user_table():
-    for _ in itertools.repeat(None, USER_AMOUNT):
-        first_name = 'alexei'
-        last_name = 'maratlanov'
-        login = 'flexo1'
-        passwd = 'password'
-        now = datetime.datetime(2009, 5, 5)
-        reg_date = now.date().isoformat()
-        birth_date = now.date().isoformat()
-        email = 'alex@gmail.com'
-        is_admin = '1'
-        is_active = '1'
-        sql_query = """INSERT INTO User(Firstname,
-                                        Lastname,
-                                        Login,
-                                        Password,
-                                        Registration_date,
-                                        Birthday_date,
-                                        Email,
-                                        is_admin,
-                                        is_active)
-                       VALUES ('{0}','{1}','{2}','{3}',{4},{5},'{6}','{7}','{8}')"""\
-            .format(first_name, last_name, login, passwd, reg_date, birth_date, email, is_admin, is_active)
+def fill_insert_sql(column_dict, table ):
+    try:
+        sql_query = 'INSERT INTO '+str(table)+"(" + ", ".join(column_dict.keys()) + ")" + ' VALUES "' +\
+            '" , "'.join(column_dict.values()) + '")'
         print(sql_query)
         cursor.execute(sql_query)
+        connect.commit()
+        return True
+    except ProgrammingError:
+        return False
 
 if __name__ == '__main__':
-    fill_user_table()
+    fill_insert_sql({"first_name": "alexei", "last_name": 'maratlanov', 'is_active': '1'}, 'User')

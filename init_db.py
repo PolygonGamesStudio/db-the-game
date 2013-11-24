@@ -11,6 +11,7 @@ import pymysql
 USER_AMOUNT = 1000
 GAME_CHARACTER_AMOUNT = 1000
 GAME_MATCH_AMOUNT = 1000
+GAMES_AMOUNT = 1000
 SET_AMOUNT = 1000
 ITEM_AMOUNT = 1000
 CHARACTERISTICS_AMOUNT = 100
@@ -168,6 +169,16 @@ def fill_game_match_table():
         fill_insert_sql(table_dict, 'GameMatch')
     connect.commit()
 
+
+def fill_games_table():
+    for _ in itertools.repeat(None, GAMES_AMOUNT):
+        #table_dict = {key: None for key in Games}
+        table_dict = {}
+        table_dict['GameMatch_GameMatch_id'] = str(randint(1, GAME_MATCH_AMOUNT))
+        table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
+        fill_insert_sql(table_dict, 'Games')
+    connect.commit()
+
 if __name__ == '__main__':
     fill_user_table()
     fill_class_table()
@@ -177,3 +188,4 @@ if __name__ == '__main__':
     fill_item_table()
     fill_game_set_table()
     fill_game_match_table()
+    fill_games_table()

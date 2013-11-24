@@ -15,7 +15,7 @@ SET_AMOUNT = 1000
 ITEM_AMOUNT = 1000
 CHARACTERISTICS_AMOUNT = 1000
 ABILITY_AMOUNT = 1000
-CLASS_AMOUNT = 1000
+CLASS_AMOUNT = 10
 WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []
 
@@ -46,6 +46,13 @@ def get_word():
 
 
 def get_word_local():
+    """
+    функция возвращает слово, состоящее из двух слов, выбранных случайно
+    слова выбираются из List-а
+    List формируется из файла, если он существует
+    если нет - из интернета, создавая при этом файл,
+    чтобы в следующий раз не обращаться в инет
+    """
     global WORDS
     if WORDS:
         return choice(WORDS) + choice(WORDS)
@@ -104,5 +111,13 @@ def fill_user_table():
         fill_insert_sql(table_dict, 'User')
 
 
+def fill_class_table():
+    for _ in itertools.repeat(None, CLASS_AMOUNT):
+        table_dict = {key: get_word_local() for key in Class}
+        del table_dict['Class_id']
+        fill_insert_sql(table_dict, 'Class')
+
+
 if __name__ == '__main__':
     fill_user_table()
+    fill_class_table()

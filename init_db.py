@@ -135,7 +135,7 @@ def fill_ability_table():
 
 
 if __name__ == '__main__':
-    #fill_user_table()
-    #fill_class_table()
-    #fill_characteristics_table()
+    fill_user_table()
+    fill_class_table()
+    fill_characteristics_table()
     fill_ability_table()

@@ -9,7 +9,7 @@ import pymysql
 
 
 USER_AMOUNT = 1000
-CHARACTER_AMOUNT = 1000
+GAME_CHARACTER_AMOUNT = 1000
 MATCH_AMOUNT = 1000
 SET_AMOUNT = 1000
 ITEM_AMOUNT = 1000
@@ -21,16 +21,16 @@ WORDS = []
 
 User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_date', 'Last_login_date', \
         'Birthday_date', 'Email', 'is_admin', 'is_active')
-Character = ('Character_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
+GameCharacter = ('Character_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
              'Class_Class_id')
-Games = ('Match_Match_id', 'Character_Character_id')
+Games = ('Match_Match_id', 'GameCharacter_GameCharacter_id')
 Match = ('Match_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
 Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
 Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
-Set = ('Set_id', 'Head_Item_id', 'Body_Item_id1', 'Special_Item_id2', 'Weapon_Item_id3', 'Character_Character_id')
+Set = ('Set_id', 'Head_Item_id', 'Body_Item_id1', 'Special_Item_id2', 'Weapon_Item_id3', 'GameCharacter_GameCharacter_id')
 Item = (
-    'Item_id', 'Title', 'Title', 'Character_Character_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
+    'Item_id', 'Title', 'Title', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
 
 
 def get_word_local():
@@ -114,13 +114,27 @@ def fill_characteristics_table():
         fill_insert_sql(table_dict, 'Characteristics')
     connect.commit()
 
+
 def fill_ability_table():
-    for _ in itertools.repeat(None, CHARACTERISTICS_AMOUNT):
+    for _ in itertools.repeat(None, ABILITY_AMOUNT):
         table_dict = {key: get_word_local() for key in Ability}
         del table_dict['Ability_id']
         table_dict['Class_Class_id'] = str(randint(1, CLASS_AMOUNT))
         table_dict['Characteristics_Characteristics_id'] = str(randint(1, CHARACTERISTICS_AMOUNT))
         fill_insert_sql(table_dict, 'Ability')
+    connect.commit()
+
+
+def fill_game_character_table():
+    for _ in itertools.repeat(None, GAME_CHARACTER_AMOUNT):
+        table_dict = {key: get_word_local() for key in GameCharacter}
+        del table_dict['Character_id']
+        table_dict['Level'] = str(randint(1, 100))
+        table_dict['User_User_id'] = str(randint(1, USER_AMOUNT))
+        table_dict['Class_Class_id'] = str(randint(1, CLASS_AMOUNT))
+        table_dict['Characteristics_Characteristics_id'] = str(randint(1, CHARACTERISTICS_AMOUNT))
+        fill_insert_sql(table_dict, 'GameCharacter')
+    connect.commit()
 
 
 if __name__ == '__main__':
@@ -128,3 +142,4 @@ if __name__ == '__main__':
     fill_class_table()
     fill_characteristics_table()
     fill_ability_table()
+    fill_game_character_table()

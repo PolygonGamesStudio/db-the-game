@@ -10,7 +10,7 @@ import pymysql
 
 USER_AMOUNT = 1000
 GAME_CHARACTER_AMOUNT = 1000
-MATCH_AMOUNT = 1000
+GAME_MATCH_AMOUNT = 1000
 SET_AMOUNT = 1000
 ITEM_AMOUNT = 1000
 CHARACTERISTICS_AMOUNT = 100
@@ -23,8 +23,8 @@ User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_d
         'Birthday_date', 'Email', 'is_admin', 'is_active')
 GameCharacter = ('Character_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
              'Class_Class_id')
-Games = ('Match_Match_id', 'GameCharacter_GameCharacter_id')
-Match = ('Match_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
+Games = ('GameMatch_GameMatch_id', 'GameCharacter_GameCharacter_id')
+GameMatch = ('GameMatch_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
 Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
 Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
@@ -157,6 +157,17 @@ def fill_game_set_table():
         fill_insert_sql(table_dict, 'GameSet')
     connect.commit()
 
+
+def fill_game_match_table():
+    for _ in itertools.repeat(None, GAME_MATCH_AMOUNT):
+        table_dict = {key: get_word_local() for key in GameMatch}
+        del table_dict['GameMatch_id']
+        table_dict['Winner_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
+        table_dict['Date_begin'] = get_date()
+        table_dict['Date_end'] = get_date()
+        fill_insert_sql(table_dict, 'GameMatch')
+    connect.commit()
+
 if __name__ == '__main__':
     fill_user_table()
     fill_class_table()
@@ -165,3 +176,4 @@ if __name__ == '__main__':
     fill_game_character_table()
     fill_item_table()
     fill_game_set_table()
+    fill_game_match_table()

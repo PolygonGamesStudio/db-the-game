@@ -33,18 +33,6 @@ Item = (
     'Item_id', 'Title', 'Title', 'Character_Character_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
 
 
-def get_word():
-    global WORDS
-    if WORDS:
-        return choice(WORDS) + choice(WORDS)
-    else:
-        response = requests.get(WORD_SITE)
-        response.encoding = 'utf-8'
-        #WORDS += response.text.splitlines()
-        WORDS.extends(response.text.splitlines())
-        return choice(WORDS) + choice(WORDS)
-
-
 def get_word_local():
     """
     функция возвращает слово, состоящее из двух слов, выбранных случайно
@@ -95,7 +83,6 @@ def fill_insert_sql(column_dict, table):
                     '" , "'.join(column_dict.values()) + '")'
         print(sql_query)
         cursor.execute(sql_query)
-        connect.commit()
         return True
     except ProgrammingError:
         return False
@@ -109,6 +96,7 @@ def fill_user_table():
         table_dict['Birthday_date'] = get_date()
         table_dict['Email'] = get_word_local() + '@' + get_word_local()
         fill_insert_sql(table_dict, 'User')
+    connect.commit()
 
 
 def fill_class_table():
@@ -116,6 +104,7 @@ def fill_class_table():
         table_dict = {key: get_word_local() for key in Class}
         del table_dict['Class_id']
         fill_insert_sql(table_dict, 'Class')
+    connect.commit()
 
 
 def fill_characteristics_table():
@@ -123,7 +112,7 @@ def fill_characteristics_table():
         table_dict = {key: str(randint(0, 100)) for key in Characteristics}
         del table_dict['Characteristics_id']
         fill_insert_sql(table_dict, 'Characteristics')
-
+    connect.commit()
 
 if __name__ == '__main__':
     fill_user_table()

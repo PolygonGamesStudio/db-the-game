@@ -1,5 +1,3 @@
-#unicoding = utf-8
-
 #from local.py
 from _sqlite3 import ProgrammingError
 import datetime
@@ -64,6 +62,18 @@ def get_word_local():
         return choice(WORDS) + choice(WORDS)
 
 
+def get_date():
+    year = choice(range(1950, 2013))
+    month = choice(range(1, 12))
+    day = choice(range(1, 28))
+    date = datetime.datetime(year, month, day)
+    return str(date)  # transfer datetime value to a str value
+
+
+def get_one_or_zero():
+    return choice(['0', '1'])
+
+
 connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
 cursor = connect.cursor()
 cursor.execute("SHOW TABLES;")
@@ -74,7 +84,7 @@ for row in cursor:
 
 def fill_insert_sql(column_dict, table):
     try:
-        sql_query = 'INSERT INTO ' + str(table) + "(" + ", ".join(column_dict.keys()) + ")" + ' VALUES "' + \
+        sql_query = 'INSERT INTO ' + str(table) + "(" + ", ".join(column_dict.keys()) + ")" + ' VALUES ("' + \
                     '" , "'.join(column_dict.values()) + '")'
         print(sql_query)
         cursor.execute(sql_query)
@@ -83,5 +93,16 @@ def fill_insert_sql(column_dict, table):
     except ProgrammingError:
         return False
 
+
+def fill_user_table():
+    for _ in itertools.repeat(None, USER_AMOUNT):
+        table_dict = {key: get_word_local() for key in User}
+        del table_dict['User_id'], table_dict['is_admin'], table_dict['is_active'], table_dict['Last_login_date']
+        table_dict['Registration_date'] = get_date()
+        table_dict['Birthday_date'] = get_date()
+        table_dict['Email'] = get_word_local() + '@' + get_word_local()
+        fill_insert_sql(table_dict, 'User')
+
+
 if __name__ == '__main__':
-    fill_insert_sql({"first_name": "alexei", "last_name": 'maratlanov', 'is_active': '1'}, 'User')
+    fill_user_table()

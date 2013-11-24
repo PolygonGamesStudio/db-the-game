@@ -22,26 +22,46 @@ WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;
 WORDS = []
 
 User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_date', 'Last_login_date', \
-                'Birthday_date', 'Email', 'is_admin', 'is_active')
+        'Birthday_date', 'Email', 'is_admin', 'is_active')
 Character = ('Character_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
-                     'Class_Class_id')
+             'Class_Class_id')
 Games = ('Match_Match_id', 'Character_Character_id')
 Match = ('Match_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
 Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
-Characteristics = ('Characteristics_id', 'Heath', 'Armor', 'Damage', 'Mana')
+Characteristics = ('Characteristics_id', 'Heath', 'Armor', 'Damage', 'Manna')
 Set = ('Set_id', 'Head_Item_id', 'Body_Item_id1', 'Special_Item_id2', 'Weapon_Item_id3', 'Character_Character_id')
-Item = ('Item_id', 'Title', 'Title', 'Character_Character_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
+Item = (
+    'Item_id', 'Title', 'Title', 'Character_Character_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
 
 
 def get_word():
     global WORDS
     if WORDS:
-        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")  # FIXME: utf8 get
+        return choice(WORDS) + choice(WORDS)
     else:
         response = requests.get(WORD_SITE)
-        WORDS += response.content.splitlines()
-        return choice(WORDS).decode("utf-8") + choice(WORDS).decode("utf-8")  # FIXME: utf8 get
+        response.encoding = 'utf-8'
+        #WORDS += response.text.splitlines()
+        WORDS.extends(response.text.splitlines())
+        return choice(WORDS) + choice(WORDS)
+
+
+def get_word_local():
+    global WORDS
+    if WORDS:
+        return choice(WORDS) + choice(WORDS)
+    else:
+        try:
+            with open('dictionary', encoding='utf-8') as dict_file:
+                WORDS.extend(dict_file.read().splitlines())
+        except IOError:
+            response = requests.get(WORD_SITE)
+            response.encoding = 'utf-8'
+            with open('dictionary', mode='w', encoding='utf-8') as dict_file:
+                dict_file.write(response.text)
+            WORDS.extend(response.text.splitlines())
+        return choice(WORDS) + choice(WORDS)
 
 
 connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
@@ -50,12 +70,12 @@ cursor.execute("SHOW TABLES;")
 print(cursor.description)
 for row in cursor:
     print(row)
-    
-    
-def fill_insert_sql(column_dict, table ):
+
+
+def fill_insert_sql(column_dict, table):
     try:
-        sql_query = 'INSERT INTO '+str(table)+"(" + ", ".join(column_dict.keys()) + ")" + ' VALUES "' +\
-            '" , "'.join(column_dict.values()) + '")'
+        sql_query = 'INSERT INTO ' + str(table) + "(" + ", ".join(column_dict.keys()) + ")" + ' VALUES "' + \
+                    '" , "'.join(column_dict.values()) + '")'
         print(sql_query)
         cursor.execute(sql_query)
         connect.commit()

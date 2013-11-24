@@ -125,7 +125,17 @@ def fill_characteristics_table():
         fill_insert_sql(table_dict, 'Characteristics')
 
 
+def fill_ability_table():
+    for _ in itertools.repeat(None, CHARACTERISTICS_AMOUNT):
+        table_dict = {key: get_word_local() for key in Ability}
+        del table_dict['Ability_id']
+        table_dict['Class_Class_id'] = str(randint(1, CLASS_AMOUNT))
+        table_dict['Characteristics_Characteristics_id'] = str(randint(1, CHARACTERISTICS_AMOUNT))
+        fill_insert_sql(table_dict, 'Ability')
+
+
 if __name__ == '__main__':
-    fill_user_table()
-    fill_class_table()
-    fill_characteristics_table()
+    #fill_user_table()
+    #fill_class_table()
+    #fill_characteristics_table()
+    fill_ability_table()

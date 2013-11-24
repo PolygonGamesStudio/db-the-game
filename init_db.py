@@ -2,7 +2,7 @@
 from _sqlite3 import ProgrammingError
 import datetime
 import itertools
-from random import choice
+from random import choice, randint
 from local import user, password, database
 import requests
 import pymysql
@@ -13,7 +13,7 @@ CHARACTER_AMOUNT = 1000
 MATCH_AMOUNT = 1000
 SET_AMOUNT = 1000
 ITEM_AMOUNT = 1000
-CHARACTERISTICS_AMOUNT = 1000
+CHARACTERISTICS_AMOUNT = 100
 ABILITY_AMOUNT = 1000
 CLASS_AMOUNT = 10
 WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
@@ -27,7 +27,7 @@ Games = ('Match_Match_id', 'Character_Character_id')
 Match = ('Match_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
 Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
-Characteristics = ('Characteristics_id', 'Heath', 'Armor', 'Damage', 'Manna')
+Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
 Set = ('Set_id', 'Head_Item_id', 'Body_Item_id1', 'Special_Item_id2', 'Weapon_Item_id3', 'Character_Character_id')
 Item = (
     'Item_id', 'Title', 'Title', 'Character_Character_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
@@ -118,6 +118,14 @@ def fill_class_table():
         fill_insert_sql(table_dict, 'Class')
 
 
+def fill_characteristics_table():
+    for _ in itertools.repeat(None, CHARACTERISTICS_AMOUNT):
+        table_dict = {key: str(randint(0, 100)) for key in Characteristics}
+        del table_dict['Characteristics_id']
+        fill_insert_sql(table_dict, 'Characteristics')
+
+
 if __name__ == '__main__':
     fill_user_table()
     fill_class_table()
+    fill_characteristics_table()

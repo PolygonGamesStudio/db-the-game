@@ -28,7 +28,7 @@ Match = ('Match_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
 Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
 Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
-Set = ('Set_id', 'Head_Item_id', 'Body_Item_id1', 'Special_Item_id2', 'Weapon_Item_id3', 'GameCharacter_GameCharacter_id')
+GameSet = ('GameSet_id', 'Head_Item_id', 'Body_Item_id', 'Special_Item_id', 'Weapon_Item_id', 'GameCharacter_GameCharacter_id')
 Item = (
     'Item_id', 'Title', 'Description', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
 
@@ -148,6 +148,15 @@ def fill_item_table():
         fill_insert_sql(table_dict, 'Item')
     connect.commit()
 
+
+def fill_game_set_table():
+    for _ in itertools.repeat(None, SET_AMOUNT):
+        table_dict = {key: str(randint(1, ITEM_AMOUNT)) for key in GameSet}
+        del table_dict['GameSet_id']
+        table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
+        fill_insert_sql(table_dict, 'GameSet')
+    connect.commit()
+
 if __name__ == '__main__':
     fill_user_table()
     fill_class_table()
@@ -155,3 +164,4 @@ if __name__ == '__main__':
     fill_ability_table()
     fill_game_character_table()
     fill_item_table()
+    fill_game_set_table()

@@ -155,18 +155,18 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE  TABLE IF NOT EXISTS `gamedb`.`Set` (
-  `Set_id` INT(11) NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `gamedb`.`GameSet` (
+  `GameSet_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `Head_Item_id` INT(11) NOT NULL ,
-  `Body_Item_id1` INT(11) NOT NULL ,
-  `Special_Item_id2` INT(11) NOT NULL ,
-  `Weapon_Item_id3` INT(11) NOT NULL ,
+  `Body_Item_id` INT(11) NOT NULL ,
+  `Special_Item_id` INT(11) NOT NULL ,
+  `Weapon_Item_id` INT(11) NOT NULL ,
   `GameCharacter_GameCharacter_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`Set_id`, `GameCharacter_GameCharacter_id`) ,
+  PRIMARY KEY (`GameSet_id`, `GameCharacter_GameCharacter_id`) ,
   INDEX `fk_Set_Item1` (`Head_Item_id` ASC) ,
-  INDEX `fk_Set_Item2` (`Body_Item_id1` ASC) ,
-  INDEX `fk_Set_Item3` (`Special_Item_id2` ASC) ,
-  INDEX `fk_Set_Item4` (`Weapon_Item_id3` ASC) ,
+  INDEX `fk_Set_Item2` (`Body_Item_id` ASC) ,
+  INDEX `fk_Set_Item3` (`Special_Item_id` ASC) ,
+  INDEX `fk_Set_Item4` (`Weapon_Item_id` ASC) ,
   INDEX `fk_Set_Character1` (`GameCharacter_GameCharacter_id` ASC) ,
   CONSTRAINT `fk_Set_Item1`
     FOREIGN KEY (`Head_Item_id` )
@@ -174,17 +174,17 @@ CREATE  TABLE IF NOT EXISTS `gamedb`.`Set` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Set_Item2`
-    FOREIGN KEY (`Body_Item_id1` )
+    FOREIGN KEY (`Body_Item_id` )
     REFERENCES `gamedb`.`Item` (`Item_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Set_Item3`
-    FOREIGN KEY (`Special_Item_id2` )
+    FOREIGN KEY (`Special_Item_id` )
     REFERENCES `gamedb`.`Item` (`Item_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Set_Item4`
-    FOREIGN KEY (`Weapon_Item_id3` )
+    FOREIGN KEY (`Weapon_Item_id` )
     REFERENCES `gamedb`.`Item` (`Item_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

@@ -30,7 +30,7 @@ Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id',
 Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
 Set = ('Set_id', 'Head_Item_id', 'Body_Item_id1', 'Special_Item_id2', 'Weapon_Item_id3', 'GameCharacter_GameCharacter_id')
 Item = (
-    'Item_id', 'Title', 'Title', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
+    'Item_id', 'Title', 'Description', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
 
 
 def get_word_local():
@@ -137,9 +137,21 @@ def fill_game_character_table():
     connect.commit()
 
 
+def fill_item_table():
+    for _ in itertools.repeat(None, ITEM_AMOUNT):
+        table_dict = {key: get_word_local() for key in Item}
+        del table_dict['Item_id']
+        table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
+        table_dict['Amount'] = str(randint(1, 1000))
+        table_dict['Characteristics_Characteristics_id'] = str(randint(1, CHARACTERISTICS_AMOUNT))
+        table_dict['Item_type'] = str(randint(1, 1000))
+        fill_insert_sql(table_dict, 'Item')
+    connect.commit()
+
 if __name__ == '__main__':
     fill_user_table()
     fill_class_table()
     fill_characteristics_table()
     fill_ability_table()
     fill_game_character_table()
+    fill_item_table()

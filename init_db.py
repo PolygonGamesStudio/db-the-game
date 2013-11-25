@@ -2,20 +2,21 @@
 from _sqlite3 import ProgrammingError
 import datetime
 import itertools
+import os
 from random import choice, randint
 from local import user, password, database
 import requests
 import pymysql
 
 
-USER_AMOUNT = 1000
-GAME_CHARACTER_AMOUNT = 1000
-GAME_MATCH_AMOUNT = 1000
-GAMES_AMOUNT = 1000
-SET_AMOUNT = 1000
-ITEM_AMOUNT = 1000
-CHARACTERISTICS_AMOUNT = 100
-ABILITY_AMOUNT = 1000
+USER_AMOUNT = 1000000
+GAME_CHARACTER_AMOUNT = 10000000
+GAME_MATCH_AMOUNT = 100000000
+GAMES_AMOUNT = 10000000000
+SET_AMOUNT = 1000000
+ITEM_AMOUNT = 10000000
+CHARACTERISTICS_AMOUNT = 10000000
+ABILITY_AMOUNT = 100
 CLASS_AMOUNT = 10
 WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []

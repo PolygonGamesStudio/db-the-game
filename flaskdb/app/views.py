@@ -11,16 +11,28 @@ def dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
 
-@app.route('/')
+
+@app.route('/userlist', methods=['GET'])
 def index():
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
     sql_query = '''select *
                 from User
                 where is_active = 1
-                order by Last_login_date
+                order by Last_login_date DESC
                 limit 100'''
-    print(sql_query)
     cursor.execute(sql_query)
     records = dictfetchall(cursor)
-    return render_template('index.html', records = records, title = 'Home')
+    return render_template('index.html', records=records)
+
+
+@app.route('/user/<int:item_id>', methods=['GET'])
+def detail_user(item_id=None):
+    connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
+    cursor = connect.cursor()
+    sql_query = '''select *
+                from GameCharacter
+                where User_User_id=%(id)d''' % {'id': item_id}
+    cursor.execute(sql_query)
+    records = dictfetchall(cursor)
+    return render_template('index.html', records = records)

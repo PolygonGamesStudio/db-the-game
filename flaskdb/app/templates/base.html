@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+    <title>Superessendam</title>
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/bootstrap-theme.css">
+    {% endblock %}
+</head>
+<body>
+<div id="content">{% block content %}{% endblock %}</div>
+<div id="footer">
+    {% block footer %}
+    &copy; Copyright 2013 by Демиденко, Маратканов, Руднев>you</a>.
+    {% endblock %}
+</div>
+</body>
+</html>

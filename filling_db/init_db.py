@@ -1,23 +1,21 @@
-#from local.py
-from _sqlite3 import ProgrammingError, IntegrityError
+
 import datetime
-import os
 from random import choice, randint
-from local import user, password, database
+#from local.py
+from filling_db.local import user, password, database
 import requests
 import pymysql
 
 
 USER_AMOUNT = 10000
-GAME_CHARACTER_AMOUNT = 10000
+GAME_CHARACTER_AMOUNT = 100000
 GAME_MATCH_AMOUNT = 10000
 GAMES_AMOUNT = 100000
-SET_AMOUNT = 1000
+SET_AMOUNT = 100000
 ITEM_AMOUNT = 1000
-CHARACTERISTICS_AMOUNT = 1000
+CHARACTERISTICS_AMOUNT = 2000
 ABILITY_AMOUNT = 100
 CLASS_AMOUNT = 10
-COMMIT_AMOUNT = 1000
 WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []
 
@@ -45,18 +43,18 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(10)]))
+        return choice(WORDS) + str(choice([x for x in range(100)])) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(100)]))
     else:
         try:
-            with open('dictionary', encoding='utf-8') as dict_file:
+            with open('filling_db/dictionary', encoding='utf-8') as dict_file:
                 WORDS.extend(dict_file.read().splitlines())
         except IOError:
             response = requests.get(WORD_SITE)
             response.encoding = 'utf-8'
-            with open('dictionary', mode='w', encoding='utf-8') as dict_file:
+            with open('filling_db/dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(10)]))
+        return choice(WORDS) + str(choice([x for x in range(10)])) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(100)]))
 
 
 def get_date():
@@ -77,6 +75,7 @@ def fill_insert_sql(column_dict, table):
     try:
         sql_query = 'INSERT INTO ' + str(table) + "(" + ", ".join(column_dict.keys()) + ")" + ' VALUES ("' + \
                     '" , "'.join(column_dict.values()) + '")'
+        print(sql_query)
         cursor.execute(sql_query)
         return True
     except pymysql.DatabaseError as e:
@@ -161,7 +160,7 @@ def fill_game_set_table():
     for i in range(SET_AMOUNT):
         table_dict = {key: str(randint(1, ITEM_AMOUNT)) for key in GameSet}
         del table_dict['GameSet_id']
-        table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
+        table_dict['GameCharacter_GameCharacter_id'] = str(range(GAME_CHARACTER_AMOUNT))
         fill_insert_sql(table_dict, 'GameSet')
         #if i % COMMIT_AMOUNT == 0:
         #    connect.commit()

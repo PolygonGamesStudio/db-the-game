@@ -1,10 +1,11 @@
 
 import datetime
 from random import choice, randint
-#from local.py
-from filling_db.local import user, password, database
 import requests
 import pymysql
+#from local.py
+from filling_db.local import user, password, database
+
 
 
 USER_AMOUNT = 10000

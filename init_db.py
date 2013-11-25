@@ -1,7 +1,6 @@
 #from local.py
-from _sqlite3 import ProgrammingError
+from _sqlite3 import ProgrammingError, IntegrityError
 import datetime
-import itertools
 import os
 from random import choice, randint
 from local import user, password, database
@@ -9,15 +8,16 @@ import requests
 import pymysql
 
 
-USER_AMOUNT = 1000000
-GAME_CHARACTER_AMOUNT = 10000000
-GAME_MATCH_AMOUNT = 100000000
-GAMES_AMOUNT = 10000000000
-SET_AMOUNT = 1000000
-ITEM_AMOUNT = 10000000
-CHARACTERISTICS_AMOUNT = 10000000
+USER_AMOUNT = 10000
+GAME_CHARACTER_AMOUNT = 10000
+GAME_MATCH_AMOUNT = 10000
+GAMES_AMOUNT = 100000
+SET_AMOUNT = 1000
+ITEM_AMOUNT = 1000
+CHARACTERISTICS_AMOUNT = 1000
 ABILITY_AMOUNT = 100
 CLASS_AMOUNT = 10
+COMMIT_AMOUNT = 1000
 WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []
 
@@ -45,7 +45,7 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + choice(WORDS)
+        return choice(WORDS) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(10)]))
     else:
         try:
             with open('dictionary', encoding='utf-8') as dict_file:
@@ -56,7 +56,7 @@ def get_word_local():
             with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + choice(WORDS)
+        return choice(WORDS) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(10)]))
 
 
 def get_date():
@@ -71,64 +71,66 @@ def get_one_or_zero():
     return choice(['0', '1'])
 
 
-connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
-cursor = connect.cursor()
-cursor.execute("SHOW TABLES;")
-print(cursor.description)
-for row in cursor:
-    print(row)
 
 
 def fill_insert_sql(column_dict, table):
     try:
         sql_query = 'INSERT INTO ' + str(table) + "(" + ", ".join(column_dict.keys()) + ")" + ' VALUES ("' + \
                     '" , "'.join(column_dict.values()) + '")'
-        print(sql_query)
         cursor.execute(sql_query)
         return True
-    except ProgrammingError:
+    except pymysql.DatabaseError as e:
+        print(e)
         return False
 
 
 def fill_user_table():
-    for _ in itertools.repeat(None, USER_AMOUNT):
+    for i in range(USER_AMOUNT):
         table_dict = {key: get_word_local() for key in User}
         del table_dict['User_id'], table_dict['is_admin'], table_dict['is_active'], table_dict['Last_login_date']
         table_dict['Registration_date'] = get_date()
         table_dict['Birthday_date'] = get_date()
         table_dict['Email'] = get_word_local() + '@' + get_word_local()
         fill_insert_sql(table_dict, 'User')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_class_table():
-    for _ in itertools.repeat(None, CLASS_AMOUNT):
+    for i in range(CLASS_AMOUNT):
         table_dict = {key: get_word_local() for key in Class}
         del table_dict['Class_id']
         fill_insert_sql(table_dict, 'Class')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_characteristics_table():
-    for _ in itertools.repeat(None, CHARACTERISTICS_AMOUNT):
+    for i in range(CHARACTERISTICS_AMOUNT):
         table_dict = {key: str(randint(0, 100)) for key in Characteristics}
         del table_dict['Characteristics_id']
         fill_insert_sql(table_dict, 'Characteristics')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_ability_table():
-    for _ in itertools.repeat(None, ABILITY_AMOUNT):
+    for i in range(ABILITY_AMOUNT):
         table_dict = {key: get_word_local() for key in Ability}
         del table_dict['Ability_id']
         table_dict['Class_Class_id'] = str(randint(1, CLASS_AMOUNT))
         table_dict['Characteristics_Characteristics_id'] = str(randint(1, CHARACTERISTICS_AMOUNT))
         fill_insert_sql(table_dict, 'Ability')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_game_character_table():
-    for _ in itertools.repeat(None, GAME_CHARACTER_AMOUNT):
+    for i in range(GAME_CHARACTER_AMOUNT):
         table_dict = {key: get_word_local() for key in GameCharacter}
         del table_dict['Character_id']
         table_dict['Level'] = str(randint(1, 100))
@@ -136,11 +138,13 @@ def fill_game_character_table():
         table_dict['Class_Class_id'] = str(randint(1, CLASS_AMOUNT))
         table_dict['Characteristics_Characteristics_id'] = str(randint(1, CHARACTERISTICS_AMOUNT))
         fill_insert_sql(table_dict, 'GameCharacter')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_item_table():
-    for _ in itertools.repeat(None, ITEM_AMOUNT):
+    for i in range(ITEM_AMOUNT):
         table_dict = {key: get_word_local() for key in Item}
         del table_dict['Item_id']
         table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
@@ -148,39 +152,51 @@ def fill_item_table():
         table_dict['Characteristics_Characteristics_id'] = str(randint(1, CHARACTERISTICS_AMOUNT))
         table_dict['Item_type'] = str(randint(1, 1000))
         fill_insert_sql(table_dict, 'Item')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_game_set_table():
-    for _ in itertools.repeat(None, SET_AMOUNT):
+    for i in range(SET_AMOUNT):
         table_dict = {key: str(randint(1, ITEM_AMOUNT)) for key in GameSet}
         del table_dict['GameSet_id']
         table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
         fill_insert_sql(table_dict, 'GameSet')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_game_match_table():
-    for _ in itertools.repeat(None, GAME_MATCH_AMOUNT):
+    for i in range(GAME_MATCH_AMOUNT):
         table_dict = {key: get_word_local() for key in GameMatch}
         del table_dict['GameMatch_id']
         table_dict['Winner_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
         table_dict['Date_begin'] = get_date()
         table_dict['Date_end'] = get_date()
         fill_insert_sql(table_dict, 'GameMatch')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 
 def fill_games_table():
-    for _ in itertools.repeat(None, GAMES_AMOUNT):
+    for i in range(GAMES_AMOUNT):
         #table_dict = {key: None for key in Games}
         table_dict = {}
         table_dict['GameMatch_GameMatch_id'] = str(randint(1, GAME_MATCH_AMOUNT))
         table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
         fill_insert_sql(table_dict, 'Games')
+        #if i % COMMIT_AMOUNT == 0:
+        #    connect.commit()
     connect.commit()
 
 if __name__ == '__main__':
+    #os.fork()
+    connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
+    cursor = connect.cursor()
+
     fill_user_table()
     fill_class_table()
     fill_characteristics_table()
@@ -190,3 +206,5 @@ if __name__ == '__main__':
     fill_game_set_table()
     fill_game_match_table()
     fill_games_table()
+
+    connect.close()

@@ -13,7 +13,7 @@ def dictfetchall(cursor):
 
 
 @app.route('/userlist', methods=['GET'])
-def index():
+def user_list():
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
     sql_query = '''select *
@@ -27,7 +27,7 @@ def index():
 
 
 @app.route('/user/<int:item_id>', methods=['GET'])
-def detail_user(item_id=None):
+def user_detail(item_id=None):
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
     sql_query = '''select *
@@ -35,4 +35,17 @@ def detail_user(item_id=None):
                 where User_User_id=%(id)d''' % {'id': item_id}
     cursor.execute(sql_query)
     records = dictfetchall(cursor)
-    return render_template('index.html', records = records)
+    return render_template('index.html', records=records)
+
+
+@app.route('/games', methods=['GET'])
+def war_list():
+    connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
+    cursor = connect.cursor()
+    sql_query = '''select *
+                    from GameMatch
+                    order by Date_begin DESC
+                    limit 100'''
+    cursor.execute(sql_query)
+    records = dictfetchall(cursor)
+    return render_template('index.html', records=records)

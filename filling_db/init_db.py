@@ -181,6 +181,7 @@ def fill_game_match_table():
     connect.commit()
 
 
+
 def fill_games_table():
     for i in range(GAMES_AMOUNT):
         #table_dict = {key: None for key in Games}

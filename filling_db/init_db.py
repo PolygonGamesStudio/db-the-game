@@ -1,4 +1,3 @@
-
 import datetime
 from random import choice, randint
 import requests

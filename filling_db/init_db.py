@@ -2,9 +2,7 @@ import datetime
 from random import choice, randint
 import requests
 import pymysql
-#from local.py
 from filling_db.local import user, password, database
-
 
 
 USER_AMOUNT = 10000
@@ -12,7 +10,7 @@ GAME_CHARACTER_AMOUNT = 100000
 GAME_MATCH_AMOUNT = 10000
 GAMES_AMOUNT = 100000
 SET_AMOUNT = 100000
-ITEM_AMOUNT = 1000
+ITEM_AMOUNT = 100000
 CHARACTERISTICS_AMOUNT = 2000
 ABILITY_AMOUNT = 100
 CLASS_AMOUNT = 10
@@ -22,15 +20,17 @@ WORDS = []
 User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_date', 'Last_login_date', \
         'Birthday_date', 'Email', 'is_admin', 'is_active')
 GameCharacter = ('Character_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
-             'Class_Class_id')
+                 'Class_Class_id')
 Games = ('GameMatch_GameMatch_id', 'GameCharacter_GameCharacter_id')
 GameMatch = ('GameMatch_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
 Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
 Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
-GameSet = ('GameSet_id', 'Head_Item_id', 'Body_Item_id', 'Special_Item_id', 'Weapon_Item_id', 'GameCharacter_GameCharacter_id')
+GameSet = (
+    'GameSet_id', 'Head_Item_id', 'Body_Item_id', 'Special_Item_id', 'Weapon_Item_id', 'GameCharacter_GameCharacter_id')
 Item = (
-    'Item_id', 'Title', 'Description', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id', 'Item_type')
+    'Item_id', 'Title', 'Description', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id',
+    'Item_type')
 
 
 def get_word_local():
@@ -43,18 +43,20 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(choice([x for x in range(100)])) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(100)]))
+        return choice(WORDS) + str(choice([x for x in range(100)])) + choice(WORDS) + choice(WORDS) + choice(
+            WORDS) + str(choice([x for x in range(100)]))
     else:
         try:
-            with open('filling_db/dictionary', encoding='utf-8') as dict_file:
+            with open('dictionary', encoding='utf-8') as dict_file:
                 WORDS.extend(dict_file.read().splitlines())
         except IOError:
             response = requests.get(WORD_SITE)
             response.encoding = 'utf-8'
-            with open('filling_db/dictionary', mode='w', encoding='utf-8') as dict_file:
+            with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(choice([x for x in range(10)])) + choice(WORDS) + choice(WORDS) + choice(WORDS) + str(choice([x for x in range(100)]))
+        return choice(WORDS) + str(choice([x for x in range(10)])) + choice(WORDS) + choice(WORDS) + choice(
+            WORDS) + str(choice([x for x in range(100)]))
 
 
 def get_date():
@@ -67,8 +69,6 @@ def get_date():
 
 def get_one_or_zero():
     return choice(['0', '1'])
-
-
 
 
 def fill_insert_sql(column_dict, table):
@@ -180,7 +180,6 @@ def fill_game_match_table():
     connect.commit()
 
 
-
 def fill_games_table():
     for i in range(GAMES_AMOUNT):
         #table_dict = {key: None for key in Games}
@@ -192,19 +191,20 @@ def fill_games_table():
         #    connect.commit()
     connect.commit()
 
+
 if __name__ == '__main__':
     #os.fork()
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
 
-    fill_user_table()
-    fill_class_table()
-    fill_characteristics_table()
-    fill_ability_table()
-    fill_game_character_table()
+    #fill_user_table()
+    #fill_class_table()
+    #fill_characteristics_table()
+    #fill_ability_table()
+    #fill_game_character_table()
     fill_item_table()
-    fill_game_set_table()
-    fill_game_match_table()
-    fill_games_table()
+    #fill_game_set_table()
+    #fill_game_match_table()
+    #fill_games_table()
 
     connect.close()

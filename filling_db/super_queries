@@ -1,0 +1,2 @@
+# самый сильный предмет у персонажа, суммарная сила всех характеристик максимальна
+select Item_id, Title, max(Health + Armor + Damage + Manna) from Characteristics join Item on Characteristics_Characteristics_id = Characteristics_id where GameCharacter_GameCharacter_id = 42;

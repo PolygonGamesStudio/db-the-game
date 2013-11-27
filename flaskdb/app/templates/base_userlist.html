@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>List of 100 last users:</h1>
+<div>
+    <div class="panel panel-default">
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td class="col-lg-1">#</td>
+            <td class="col-lg-1">First name</td>
+            <td class="col-lg-1">Last name</td>
+            <td class="col-lg-1">Reg date</td>
+            <td class="col-lg-1">user is active</td>
+            <td class="col-lg-1">user is admin</td>
+            <td class="col-lg-1">last login date</td>
+            <td class="col-lg-1">birthday</td>
+            <td class="col-lg-1">Login</td>
+            <td class="col-lg-1">Password</td>
+            <td class="col-lg-1">email</td>
+        </tr>
+        </thead>
+        {% for user_dict in records %}
+        <tr>
+            {% for key, value in user_dict.iteritems() %}
+            <td class="col-lg-1">{{ value }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</div>
+{% endblock %}

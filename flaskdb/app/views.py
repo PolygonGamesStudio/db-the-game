@@ -23,7 +23,7 @@ def user_list():
                 limit 100'''
     cursor.execute(sql_query)
     records = dictfetchall(cursor)
-    return render_template('index.html', records=records)
+    return render_template('base_userlist.html', records=records)
 
 
 @app.route('/user/<int:item_id>', methods=['GET'])

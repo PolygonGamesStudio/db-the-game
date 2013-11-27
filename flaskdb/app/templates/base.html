@@ -8,11 +8,24 @@
     {% endblock %}
 </head>
 <body>
-<div id="content">{% block content %}{% endblock %}</div>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Superssendam!</h1>
+    </div>
+</div>
+
+<div id="content">
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
 <div id="footer">
     {% block footer %}
-    &copy; Copyright 2013 by Демиденко, Маратканов, Руднев>you</a>.
+    &copy; Copyright 2013 by Демиденко, Маратканов, Руднев.
     {% endblock %}
 </div>
+
 </body>
 </html>

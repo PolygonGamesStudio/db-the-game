@@ -2,6 +2,7 @@ import datetime
 from random import choice, randint
 import requests
 import pymysql
+#from local.py
 from filling_db.local import user, password, database
 
 
@@ -10,7 +11,7 @@ GAME_CHARACTER_AMOUNT = 100000
 GAME_MATCH_AMOUNT = 10000
 GAMES_AMOUNT = 100000
 SET_AMOUNT = 100000
-ITEM_AMOUNT = 100000
+ITEM_AMOUNT = 1000
 CHARACTERISTICS_AMOUNT = 2000
 ABILITY_AMOUNT = 100
 CLASS_AMOUNT = 10
@@ -27,7 +28,7 @@ Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
 Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
 GameSet = (
-    'GameSet_id', 'Head_Item_id', 'Body_Item_id', 'Special_Item_id', 'Weapon_Item_id', 'GameCharacter_GameCharacter_id')
+'GameSet_id', 'Head_Item_id', 'Body_Item_id', 'Special_Item_id', 'Weapon_Item_id', 'GameCharacter_GameCharacter_id')
 Item = (
     'Item_id', 'Title', 'Description', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id',
     'Item_type')
@@ -47,12 +48,12 @@ def get_word_local():
             WORDS) + str(choice([x for x in range(100)]))
     else:
         try:
-            with open('dictionary', encoding='utf-8') as dict_file:
+            with open('filling_db/dictionary', encoding='utf-8') as dict_file:
                 WORDS.extend(dict_file.read().splitlines())
         except IOError:
             response = requests.get(WORD_SITE)
             response.encoding = 'utf-8'
-            with open('dictionary', mode='w', encoding='utf-8') as dict_file:
+            with open('filling_db/dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
         return choice(WORDS) + str(choice([x for x in range(10)])) + choice(WORDS) + choice(WORDS) + choice(
@@ -197,14 +198,14 @@ if __name__ == '__main__':
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
 
-    #fill_user_table()
-    #fill_class_table()
-    #fill_characteristics_table()
-    #fill_ability_table()
-    #fill_game_character_table()
+    fill_user_table()
+    fill_class_table()
+    fill_characteristics_table()
+    fill_ability_table()
+    fill_game_character_table()
     fill_item_table()
-    #fill_game_set_table()
-    #fill_game_match_table()
-    #fill_games_table()
+    fill_game_set_table()
+    fill_game_match_table()
+    fill_games_table()
 
     connect.close()

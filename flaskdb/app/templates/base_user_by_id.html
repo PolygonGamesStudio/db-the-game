@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<!--User_id,-->
+<!--Firstname,-->
+<!--Lastname,-->
+<!--Login,-->
+<!--Password,-->
+<!--Registration_date,-->
+<!--Last_login_date,-->
+<!--Birthday_date,-->
+<!--Email,-->
+<!--is_admin,-->
+<!--is_active-->
+{% if user['is_active'] %}
+<div>Hello, <h1>{{ user['Login'] }}</h1></div>
+<div>First name: <h3>{{ user['Firstname'] }}</h3></div>
+<div>Last name: <h3>{{ user['Lastname'] }}</h3></div>
+<div>Registration date: <h3>{{ user['Registration_date'] }}</h3></div>
+<div>Last login date: <h3>{{ user['Last_login_date'] }}</h3></div>
+<div>Birthday: <h3>{{ user['Birthday_date'] }}</h3></div>
+<div>Email: <h3>{{ user['Email'] }}</h3></div>
+{% if user['is_admin'] %}
+<div>You're admin, do WHATEVER you want</div>
+{% endif %}
+<!--GameCharacter_id,-->
+<!--Name,-->
+<!--Level,-->
+<!--User_User_id,-->
+<!--Characteristics_Characteristics_id,-->
+<!--Class_Class_id-->
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td class="col-lg-1">Name</td>
+            <td class="col-lg-1">Login</td>
+        </tr>
+        </thead>
+        {% for char_dict in characters %}
+        <tr>
+            <td class="col-lg-1">{{ char_dict["Name"] }}</td>
+            <td class="col-lg-1">{{ char_dict["Level"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% else %}
+<div>Sorry, user is not active</div>
+{% endif %}
+{% endblock %}

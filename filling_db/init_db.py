@@ -1,7 +1,9 @@
 import datetime
 from random import choice, randint
-import requests
+
 import pymysql
+
+import requests
 from filling_db.local import user, password, database
 
 
@@ -19,7 +21,7 @@ WORDS = []
 
 User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_date', 'Last_login_date', \
         'Birthday_date', 'Email', 'is_admin', 'is_active')
-GameCharacter = ('Character_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
+GameCharacter = ('GameCharacter_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
                  'Class_Class_id')
 Games = ('GameMatch_GameMatch_id', 'GameCharacter_GameCharacter_id')
 GameMatch = ('GameMatch_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')

@@ -1,34 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>List of 100 last users:</h1>
+<!--User_id,-->
+<!--Login,-->
+<!--Registration_date,-->
+<!--Last_login_date,-->
+<!--Email,-->
 <div>
-    <div class="panel panel-default">
-    </div>
+    <div class="panel panel-default"></div>
     <table class="table">
         <thead>
         <tr>
-            <td class="col-lg-1">#</td>
-            <td class="col-lg-1">First name</td>
-            <td class="col-lg-1">Last name</td>
-            <td class="col-lg-1">Reg date</td>
-            <td class="col-lg-1">user is active</td>
-            <td class="col-lg-1">user is admin</td>
-            <td class="col-lg-1">last login date</td>
-            <td class="col-lg-1">birthday</td>
             <td class="col-lg-1">Login</td>
-            <td class="col-lg-1">Password</td>
+            <td class="col-lg-1">Reg date</td>
+            <td class="col-lg-1">last login date</td>
             <td class="col-lg-1">email</td>
         </tr>
         </thead>
         {% for user_dict in records %}
         <tr>
-            {% for key, value in user_dict.iteritems() %}
-            <td class="col-lg-1">{{ value }}</td>
-            {% endfor %}
+            <td class="col-lg-1"><a href="/user/{{ user_dict['User_id'] }}">{{ user_dict["Login"] }}</a></td>
+            <td class="col-lg-1">{{ user_dict["Registration_date"] }}</td>
+            <td class="col-lg-1">{{ user_dict["Last_login_date"] }}</td>
+            <td class="col-lg-1">{{ user_dict["Email"] }}</td>
         </tr>
         {% endfor %}
     </table>
 </div>
 
-</div>
 {% endblock %}

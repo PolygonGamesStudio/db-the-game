@@ -1,23 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<!--User_id,-->
-<!--Firstname,-->
-<!--Lastname,-->
-<!--Login,-->
-<!--Password,-->
-<!--Registration_date,-->
-<!--Last_login_date,-->
-<!--Birthday_date,-->
-<!--Email,-->
-<!--is_admin,-->
-<!--is_active-->
-
-<!--GameCharacter_id,-->
-<!--Name,-->
-<!--Level,-->
-<!--User_User_id,-->
-<!--Characteristics_Characteristics_id,-->
-<!--Class_Class_id-->
 {% if user['is_active'] %}
 <div id="content" role="main">
     <!-- Promo Section -->
@@ -25,11 +7,10 @@
         <div class="row-fluid">
             <div class="super-hero-unit">
                 <figure>
-                    <img alt="some image" src="{{ url_for('static', filename="images/assets/landscapes/landscape-1-1250x300.jpg")
-                    }}" />
+                    <img alt="some image" src="{{ url_for('static', filename="images/assets/landscapes/landscape-1-1250x300.jpg") }}" />
                     <figcaption class="flex-caption">
                         <h1 class="super animated fadeinup delayed">
-                            About User
+                            О Игроке
                         </h1>
                     </figcaption>
                 </figure>
@@ -53,8 +34,7 @@
                 <div class="span6">
                     <p class="lead">
 
-                    <p>Comment</p>
-                    Last login date: {{ user['Last_login_date'] }}
+                    <p>Заметки о пользователи:</p>
                     {% if user['is_admin'] %}
                     You're admin, do WHATEVER you want
                     {% endif %}
@@ -62,17 +42,18 @@
                     <ul class="icons lead icons-small">
                         <li>
                             <i class="icon-ok gray"></i>
-                            Registration date: {{ user['Registration_date'] }}
+                            Дата регистрации: {{ user['Registration_date'] }}
                         </li>
                         <li>
                             <i class="icon-ok gray"></i>
-                            Birthday: {{ user['Birthday_date'] }}
+                            Дата рождения: {{ user['Birthday_date'] }}
                         </li>
                         <li>
                             <i class="icon-ok gray"></i>
-                            Email: {{ user['Email'] | truncate(15, True) }}
+                            Почта: {{ user['Email'] | truncate(15, True) }}
                         </li>
                     </ul>
+                    Последний раз в сети: {{ user['Last_login_date'] }}
                 </div>
             </div>
         </div>
@@ -81,8 +62,8 @@
         <div class="container-fluid">
             <div class="section-header">
                 <h1>
-                    Latest
-                    <small class="light">characters?</small>
+                    Все
+                    <small class="light">персонажи</small>
                 </h1>
             </div>
             <div class="row-fluid">
@@ -103,7 +84,7 @@
                                 </h4>
 
                                 <p>
-                                    date or comment
+                                    FIXME! date or comment
                                 </p>
                             </figcaption>
                         </figure>
@@ -117,8 +98,8 @@
         <div class="container-fluid">
             <div class="section-header">
                 <h1>
-                    Latest
-                    <small class="light">fight?</small>
+                    Последнии
+                    <small class="light">схватки</small>
                 </h1>
             </div>
             <ul class="unstyled row-fluid">
@@ -144,7 +125,7 @@
                             </h3>
 
                             <p>
-                                Учавствовал персов {{ fight['Name'] | truncate(15, True) }}
+                                Учавствовал в баталии, под псевдонимом {{ fight['Name'] | truncate(15, True) }}
                             </p>
                         </div>
                     </div>

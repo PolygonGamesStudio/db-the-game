@@ -28,11 +28,7 @@
           <img alt="some image" src="{{ url_for('static', filename="images/assets/landscapes/landscape-1-1250x300.jpg") }}" />
           <figcaption class="flex-caption">
             <h1 class="super animated fadeinup delayed">
-              Work
-              <span class="lighter">
-                &amp;
-              </span>
-              More
+              About User
             </h1>
           </figcaption>
         </figure>
@@ -44,7 +40,7 @@
       <div class="row-fluid">
         <div class="section-header">
           <h1>
-              {{ user['Login'] }}
+              {{ user['Login'] | truncate(20) }}
             <small class="light">{{ user['Lastname'] }}</small>
           </h1>
         </div>

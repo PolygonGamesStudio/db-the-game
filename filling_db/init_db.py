@@ -44,8 +44,7 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(choice([x for x in range(100)])) + choice(WORDS) + choice(WORDS) + choice(
-            WORDS) + str(choice([x for x in range(100)]))
+        return choice(WORDS) + str(choice([x for x in range(10000)]))
     else:
         try:
             with open('dictionary', encoding='utf-8') as dict_file:
@@ -56,8 +55,7 @@ def get_word_local():
             with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(choice([x for x in range(10)])) + choice(WORDS) + choice(WORDS) + choice(
-            WORDS) + str(choice([x for x in range(100)]))
+        return choice(WORDS) + str(choice([x for x in range(10000)]))
 
 
 def get_date():

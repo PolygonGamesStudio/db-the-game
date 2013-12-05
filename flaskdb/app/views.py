@@ -14,6 +14,7 @@ def dictfetchall(cursor):
 
 
 @app.route('/userlist', methods=['GET'])
+@app.route('/', methods=['GET'])
 def user_list():
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
@@ -99,6 +100,24 @@ def character_detail(character_id=None):
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
     sql_query = '''
+                    select
+                    Name,Level,Type
+                    from GameCharacter
+                    join Class on Class_Class_id = Class_id
+                    where GameCharacter_id = %(id)d
+                        ''' % {'id': character_id}
+    cursor.execute(sql_query)
+    character_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
+    sql_query = '''
+                        select Item_id, Title, max(Health + Armor + Damage + Manna)
+                        from Characteristics
+                        join Item on Characteristics_Characteristics_id = Characteristics_id
+                        where GameCharacter_GameCharacter_id = %(id)d
+                            ''' % {'id': character_id}
+    cursor.execute(sql_query)
+    super_item_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
+
+    sql_query = '''
                 select
                 GameCharacter_id,
                 Name,
@@ -112,7 +131,21 @@ def character_detail(character_id=None):
                     ''' % {'id': character_id}
     cursor.execute(sql_query)
     fights_record = dictfetchall(cursor)
-
+    sql_query = '''
+                    select
+                    Title,
+                    Description,
+                    Health,
+                    Armor,
+                    Damage,
+                    Manna
+                    from Item
+                    join Characteristics on Characteristics_Characteristics_id = Characteristics_id
+                    where GameCharacter_GameCharacter_id = %(id)d
+                    limit 6;
+                ''' % {'id': character_id}
+    cursor.execute(sql_query)
+    items_record = dictfetchall(cursor)
     sql_query = '''
                     select
                     GameCharacter_id,
@@ -128,8 +161,8 @@ def character_detail(character_id=None):
                         ''' % {'id': character_id}
     cursor.execute(sql_query)
     win_fights_record = dictfetchall(cursor)
-
-    return render_template('base_character_by_id.html', fights=fights_record, win_fights=win_fights_record)
+    return render_template('base_character_by_id.html', fights=fights_record, win_fights=win_fights_record,\
+                           items=items_record, character=character_record, super_item=super_item_record)
 
 
 @app.route('/games', methods=['GET'])

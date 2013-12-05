@@ -192,10 +192,8 @@ def fill_games_table():
 
 
 if __name__ == '__main__':
-    #os.fork()
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
-
     fill_user_table()
     fill_class_table()
     fill_characteristics_table()
@@ -205,5 +203,4 @@ if __name__ == '__main__':
     fill_game_set_table()
     fill_game_match_table()
     fill_games_table()
-
     connect.close()

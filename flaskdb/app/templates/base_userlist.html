@@ -29,6 +29,8 @@
                         <td>{{ user_dict["Last_login_date"] }}</td>
                         <td>{{ user_dict["Email"] | truncate(15, True) }}</td>
                     </tr>
+                    {% else %}
+                        <p>Вы у нас первый, играйте и побеждайте!</p>
                     {% endfor %}
                     </tbody>
                 </table>

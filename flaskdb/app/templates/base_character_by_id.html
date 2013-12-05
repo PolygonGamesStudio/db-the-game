@@ -35,11 +35,12 @@
                 <div class="span9">
                     <blockquote>
                         <p class="lead">
-                            FIXME Добавить Инфо
+                            <p>Уровень персонажа :{{ character['Level'] }}</p>
+                            <p>Класс персонажа :{{ character['Type']| truncate(15, True) }}</p>
+                            <p>Самый сильный предмет у персонажа: {{super_item['Title']| truncate(25, True)}} c уроном {{super_item['max(Health + Armor + Damage + Manna)']}}</p>
                         </p>
                         <small>
-                            Sam Doe
-                            <cite title="Source Title">biz inc</cite>
+                            {{ character['Name']| truncate(30, True) }}
                         </small>
                     </blockquote>
                 </div>
@@ -47,8 +48,44 @@
             <hr/>
         </div>
     </section>
+    <!-- вещи -->
+    <section class="section section-alt section-padded">
+      <div class="container-fluid">
+        <div class="section-header">
+          <h1>
+            Вещи
+            <small class="light">Персонажа</small> <!-- max 6 -->
+          </h1>
+        </div>
+        <div class="row-fluid">
+          {% for item in items %}
+          <div class="span2">
+            <h4>
+              {{item['Title'] | truncate(15, True)}}
+            </h4>
+            <p>
+                {{item['Description'] | truncate(15, True)}}
+            </p>
+            <p>
+                Жизни : {{item['Health'] }}
+            </p>
+            <p>
+                Броня : {{item['Armor'] }}
+            </p>
+            <p>
+                Урон : {{item['Damage'] }}
+            </p>
+            <p>
+                Манна : {{item['Manna'] }}
+            </p>
 
-    <p>О шмот</p>
+          </div>
+          {% else %}
+            <p>У Вас нет предметов</p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
     <!-- все схватки -->
     <section class="section section-padded">
         <div class="container-fluid">
@@ -86,6 +123,8 @@
                         </div>
                     </div>
                 </li>
+                {% else %}
+                    <p>Вы ещё не участвовали в сражениях :(</p>
                 {% endfor %}
             </ul>
         </div>
@@ -127,6 +166,8 @@
                         </div>
                     </div>
                 </li>
+                {% else %}
+                    <p>Побед к сожелению ещё не было :(</p>
                 {% endfor %}
             </ul>
         </div>

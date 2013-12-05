@@ -79,6 +79,7 @@ def user_detail(user_id=None):
     #last fight
     sql_query = '''
                 select
+                GameCharacter_id,
                 Name,
                 Title,
                 Date_begin
@@ -91,6 +92,44 @@ def user_detail(user_id=None):
     cursor.execute(sql_query)
     fights_record = dictfetchall(cursor)
     return render_template('base_user_by_id.html', user=user_record, characters=characters_record, fights=fights_record)
+
+
+@app.route('/character/<int:character_id>', methods=['GET'])
+def character_detail(character_id=None):
+    connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
+    cursor = connect.cursor()
+    sql_query = '''
+                select
+                GameCharacter_id,
+                Name,
+                Title,
+                Date_begin
+                from Games join GameCharacter on GameCharacter_id = GameCharacter_GameCharacter_id
+                join GameMatch on GameMatch_id = GameMatch_GameMatch_id
+                where GameCharacter_id = %(id)d
+                order by Date_begin DESC
+                limit 3;
+                    ''' % {'id': character_id}
+    cursor.execute(sql_query)
+    fights_record = dictfetchall(cursor)
+
+    sql_query = '''
+                    select
+                    GameCharacter_id,
+                    Name,
+                    Title,
+                    Date_begin
+                    from Games join GameCharacter on GameCharacter_id = GameCharacter_GameCharacter_id
+                    join GameMatch on GameMatch_id = GameMatch_GameMatch_id
+                    where Winner_id = %(id)d
+                    group by Title
+                    order by Date_begin DESC
+                    limit 3;
+                        ''' % {'id': character_id}
+    cursor.execute(sql_query)
+    win_fights_record = dictfetchall(cursor)
+
+    return render_template('base_character_by_id.html', fights=fights_record, win_fights=win_fights_record)
 
 
 @app.route('/games', methods=['GET'])

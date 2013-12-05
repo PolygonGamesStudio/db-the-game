@@ -71,7 +71,7 @@
                     {% for char_dict in characters %}
                     <li class="span3 filter-forest">
                         <figure class="round-box box-big">
-                            <a class="box-inner" href="">
+                            <a class="box-inner" href="/character/{{ char_dict['GameCharacter_id'] }}">
                                 <img alt="some image" class="img-circle"
                                      src="{{ url_for('static', filename='images/assets/pers-300x300.png') }}"/>
                                 <i class="plus-icon"></i>
@@ -108,7 +108,7 @@
                     <div class="row-fluid">
                         <div class="span4">
                             <div class="round-box box-small">
-                                <a class="box-inner" href="post.html">
+                                <a class="box-inner" href="">
                                     <img alt="some image" class="img-circle"
                                          src="{{ url_for('static', filename='images/assets/landscapes/landscape-3-300x300.jpg') }}"/>
                                 </a>
@@ -125,7 +125,7 @@
                             </h3>
 
                             <p>
-                                Учавствовал в баталии, под псевдонимом {{ fight['Name'] | truncate(15, True) }}
+                                Учавствовал в баталии, под псевдонимом <a href="/character/{{ fight['GameCharacter_id'] }}">{{ fight['Name'] | truncate(15, True) }}</a>
                             </p>
                         </div>
                     </div>

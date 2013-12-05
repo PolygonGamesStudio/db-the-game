@@ -3,4 +3,3 @@ select Item_id, Title, max(Health + Armor + Damage + Manna) from Characteristics
 
 #среднее количество жизней\дамага\маны\брони для все классов в игре
 select Type,AVG(Health),AVG(Armor),AVG(Damage),AVG(Manna) from Ability join Class on Class_Class_id = Class_id join Characteristics on Characteristics_Characteristics_id = Characteristics_id group by Type;
-

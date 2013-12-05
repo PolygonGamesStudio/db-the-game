@@ -122,6 +122,7 @@
                 </h1>
             </div>
             <ul class="unstyled row-fluid">
+                {% for fight in fights%}
                 <li class="span4">
                     <div class="row-fluid">
                         <div class="span4">
@@ -132,50 +133,23 @@
                                 </a>
                             </div>
                             <h5 class="text-center light">
-                                12 dec 2012
+                                {{ fight['Date_begin'] }}
                             </h5>
                         </div>
                         <div class="span8">
                             <h3>
                                 <a href="post.html">
-                                    A normal post
+                                    {{ fight['Title'] | truncate(15, True) }}
                                 </a>
                             </h3>
 
                             <p>
-                                Curabitur euismod ultrices purus eget vehicula. Cras interdum est sed dui congue
-                                imperdiet.
+                                Учавствовал персов {{ fight['Name'] | truncate(15, True) }}
                             </p>
                         </div>
                     </div>
                 </li>
-                <li class="span4">
-                    <div class="row-fluid">
-                        <div class="span4">
-                            <div class="round-box box-small">
-                                <a class="box-inner" href="post.html">
-                                    <img alt="some image" class="img-circle"
-                                         src="{{ url_for('static', filename='images/assets/landscapes/landscape-3-300x300.jpg') }}"/>
-                                </a>
-                            </div>
-                            <h5 class="text-center light">
-                                12 dec 2012
-                            </h5>
-                        </div>
-                        <div class="span8">
-                            <h3>
-                                <a href="post.html">
-                                    A normal post
-                                </a>
-                            </h3>
-
-                            <p>
-                                Curabitur euismod ultrices purus eget vehicula. Cras interdum est sed dui congue
-                                imperdiet.
-                            </p>
-                        </div>
-                    </div>
-                </li>
+                {% endfor %}
             </ul>
         </div>
     </section>

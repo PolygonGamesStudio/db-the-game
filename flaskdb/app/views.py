@@ -76,7 +76,21 @@ def user_detail(user_id=None):
     #     print(desc[0])
     characters_record = dictfetchall(cursor)
 
-    return render_template('base_user_by_id.html', user=user_record, characters=characters_record)
+    #last fight
+    sql_query = '''
+                select
+                Name,
+                Title,
+                Date_begin
+                from Games join GameCharacter on GameCharacter_id = GameCharacter_GameCharacter_id
+                join GameMatch on GameMatch_id = GameMatch_GameMatch_id
+                where User_User_id = %(id)d
+                order by Date_begin DESC
+                limit 3;
+                    ''' % {'id': user_id}
+    cursor.execute(sql_query)
+    fights_record = dictfetchall(cursor)
+    return render_template('base_user_by_id.html', user=user_record, characters=characters_record, fights=fights_record)
 
 
 @app.route('/games', methods=['GET'])

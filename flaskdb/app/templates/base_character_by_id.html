@@ -37,7 +37,10 @@
                         <p class="lead">
                             <p>Уровень персонажа :{{ character['Level'] }}</p>
                             <p>Класс персонажа :{{ character['Type']| truncate(15, True) }}</p>
+
+                            {% if super_item['Title'] %}
                             <p>Самый сильный предмет у персонажа: {{super_item['Title']| truncate(25, True)}} c уроном {{super_item['max(Health + Armor + Damage + Manna)']}}</p>
+                            {% endif %}
                         </p>
                         <small>
                             {{ character['Name']| truncate(30, True) }}

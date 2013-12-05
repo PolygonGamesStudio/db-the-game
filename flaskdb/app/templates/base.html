@@ -11,25 +11,35 @@
     <!--[if lt IE 9]>
     <script src='http://html5shim.googlecode.com/svn/trunk/html5.js'></script>
     <script src={{ url_for('static', filename='javascripts/PIE.js') }}'></script>
-  <![endif]-->
-    <link href='{{ url_for('static', filename='images/apple-touch-icon-144-precomposed.html') }}' rel="apple-touch-icon-precomposed"
-          sizes="144x144"/>
-    <link href='{{ url_for('static', filename="images/apple-touch-icon-114-precomposed.html") }}' rel="apple-touch-icon-precomposed"
-          sizes="114x114"/>
-    <link href='{{ url_for('static', filename="images/apple-touch-icon-72-precomposed.html") }}' rel="apple-touch-icon-precomposed"
-          sizes="72x72"/>
-    <link href='{{ url_for('static', filename="images/apple-touch-icon-57-precomposed.html") }}' rel="apple-touch-icon-precomposed"/>
+    <![endif]-->
+    <link href='{{ url_for(' static
+    ', filename='images/apple-touch-icon-144-precomposed.html') }}' rel="apple-touch-icon-precomposed"
+    sizes="144x144"/>
+    <link href='{{ url_for(' static
+    ', filename="images/apple-touch-icon-114-precomposed.html") }}' rel="apple-touch-icon-precomposed"
+    sizes="114x114"/>
+    <link href='{{ url_for(' static
+    ', filename="images/apple-touch-icon-72-precomposed.html") }}' rel="apple-touch-icon-precomposed"
+    sizes="72x72"/>
+    <link href='{{ url_for(' static
+    ', filename="images/apple-touch-icon-57-precomposed.html") }}' rel="apple-touch-icon-precomposed"/>
     {% block css %}
-    <link href="{{ url_for('static', filename='stylesheets/bootstrap.css') }}" media="screen" rel="stylesheet" type="text/css"/>
-    <link href='{{ url_for('static', filename="stylesheets/responsive.css") }}' media="screen" rel="stylesheet" type="text/css"/>
-    <link href='{{ url_for('static', filename="stylesheets/font-awesome.css") }}' media="screen" rel="stylesheet" type="text/css"/>
-    <link href='{{ url_for('static', filename="stylesheets/theme.css") }}' media="screen" rel="stylesheet" type="text/css"/>
-    <link href='{{ url_for('static', filename="stylesheets/fonts.css") }}' media="screen" rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('static', filename='stylesheets/bootstrap.css') }}" media="screen" rel="stylesheet"
+          type="text/css"/>
+    <link href='{{ url_for(' static
+    ', filename="stylesheets/responsive.css") }}' media="screen" rel="stylesheet" type="text/css"/>
+    <link href='{{ url_for(' static
+    ', filename="stylesheets/font-awesome.css") }}' media="screen" rel="stylesheet" type="text/css"/>
+    <link href='{{ url_for(' static
+    ', filename="stylesheets/theme.css") }}' media="screen" rel="stylesheet" type="text/css"/>
+    <link href='{{ url_for(' static
+    ', filename="stylesheets/fonts.css") }}' media="screen" rel="stylesheet" type="text/css"/>
     {% endblock %}
     {% block js %}
     <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascripts/bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.flexslider-min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='javascripts/jquery.flexslider-min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.form.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.tweet.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.form.js') }}"></script>
@@ -40,7 +50,7 @@
 
 <body class='theme-pattern-lghtmesh'>
 {% block head %}
-    <div class="wrapper">
+<div class="wrapper">
     <!-- Page Header -->
     <header id="masthead">
         <nav class="navbar navbar-static-top">
@@ -72,46 +82,47 @@
             </div>
         </nav>
     </header>
-{% endblock %}
-{% block content %}
-{% endblock %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
 </div>
 {% block footer %}
 <!-- Page Footer -->
-  <footer id="footer" role="contentinfo">
+<footer id="footer" role="contentinfo">
     <div class="wrapper wrapper-transparent">
-      <div class="container-fluid">
-        <div class="row-fluid">
-          <div class="span6 small-screen-center">
-            <h3>
-              tech
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span6 small-screen-center">
+                    <h3>
+                        tech
               <span class="light">
                 park
               </span>
-            </h3>
-            <p>
-              info@mail.ru
-              <br />
-              &copy; Copyright 2013
-            </p>
-          </div>
-          <div class="span6">
-            <ul class="unstyled inline text-right small-screen-center big social-icons">
-              <li>
-                <a data-iconcolor="#00a0d1" href="#">
-                  <i class="icon-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a data-iconcolor="#3b5998" href="#">
-                  <i class="icon-facebook"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
+                    </h3>
+
+                    <p>
+                        info@mail.ru
+                        <br/>
+                        &copy; Copyright 2013
+                    </p>
+                </div>
+                <div class="span6">
+                    <ul class="unstyled inline text-right small-screen-center big social-icons">
+                        <li>
+                            <a data-iconcolor="#00a0d1" href="#">
+                                <i class="icon-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-iconcolor="#3b5998" href="#">
+                                <i class="icon-facebook"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </footer>
+</footer>
 {% endblock %}
 </body>

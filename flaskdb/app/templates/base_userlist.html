@@ -1,31 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>List of 100 last users:</h1>
-<!--User_id,-->
-<!--Login,-->
-<!--Registration_date,-->
-<!--Last_login_date,-->
-<!--Email,-->
-<div>
-    <div class="panel panel-default"></div>
-    <table class="table">
+
+<section class="section section-alt section-padded">
+<div class="container-fluid">
+  <div class="section-header">
+    <h1>
+      List of 100
+      <small class="light">last users</small>
+    </h1>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <table class="table table-striped">
         <thead>
-        <tr>
-            <td class="col-lg-1">Login</td>
-            <td class="col-lg-1">Reg date</td>
-            <td class="col-lg-1">last login date</td>
-            <td class="col-lg-1">email</td>
-        </tr>
+          <tr>
+            <th>Login</th>
+            <th>Reg date</th>
+            <th>Last login date</th>
+            <th>Email</th>
+          </tr>
         </thead>
+        <tbody>
         {% for user_dict in records %}
-        <tr>
-            <td class="col-lg-1"><a href="/user/{{ user_dict['User_id'] }}">{{ user_dict["Login"] }}</a></td>
-            <td class="col-lg-1">{{ user_dict["Registration_date"] }}</td>
-            <td class="col-lg-1">{{ user_dict["Last_login_date"] }}</td>
-            <td class="col-lg-1">{{ user_dict["Email"] }}</td>
-        </tr>
+          <tr>
+              <td><a href="/user/{{ user_dict['User_id'] }}">{{ user_dict["Login"] }}</a></td>
+              <td>{{ user_dict["Registration_date"] }}</td>
+              <td>{{ user_dict["Last_login_date"] }}</td>
+              <td>{{ user_dict["Email"] }}</td>
+          </tr>
         {% endfor %}
-    </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+</section>
 
 {% endblock %}

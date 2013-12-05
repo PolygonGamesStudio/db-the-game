@@ -42,7 +42,6 @@ def user_list():
 def user_detail(user_id=None):
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
-
     sql_query_to_get_user = '''
                                 select
                                     User_id,
@@ -60,9 +59,7 @@ def user_detail(user_id=None):
                                 where User_id = %(id)d
                             ''' % {'id': user_id}
     cursor.execute(sql_query_to_get_user)
-
     user_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
-
     sql_query = '''
                     select
                         GameCharacter_id,

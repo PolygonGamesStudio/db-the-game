@@ -23,10 +23,10 @@
         <tbody>
         {% for user_dict in records %}
           <tr>
-              <td><a href="/user/{{ user_dict['User_id'] }}">{{ user_dict["Login"] }}</a></td>
+              <td><a href="/user/{{ user_dict['User_id'] }}">{{ user_dict["Login"] | truncate(15, True) }}</a></td>
               <td>{{ user_dict["Registration_date"] }}</td>
               <td>{{ user_dict["Last_login_date"] }}</td>
-              <td>{{ user_dict["Email"] }}</td>
+              <td>{{ user_dict["Email"] | truncate(15, True) }}</td>
           </tr>
         {% endfor %}
         </tbody>

@@ -1,6 +1,6 @@
 #coding: utf-8
 import datetime
-from random import choice, randint
+from random import choice, randint, random
 
 import pymysql
 from filling_db.local import user, password, database
@@ -44,7 +44,7 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(choice([x for x in range(10000)]))
+        return choice(WORDS) + str(random.randint(1, 1000000))
     else:
         try:
             with open('dictionary', encoding='utf-8') as dict_file:
@@ -55,7 +55,7 @@ def get_word_local():
             with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(choice([x for x in range(10000)]))
+        return choice(WORDS) + str(random.randint(1, 1000000))
 
 
 def get_date():
@@ -196,14 +196,14 @@ if __name__ == '__main__':
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
 
-    #fill_user_table()
-    #fill_class_table()
-    #fill_characteristics_table()
-    #fill_ability_table()
-    #fill_game_character_table()
+    fill_user_table()
+    fill_class_table()
+    fill_characteristics_table()
+    fill_ability_table()
+    fill_game_character_table()
     fill_item_table()
-    #fill_game_set_table()
-    #fill_game_match_table()
-    #fill_games_table()
+    fill_game_set_table()
+    fill_game_match_table()
+    fill_games_table()
 
     connect.close()

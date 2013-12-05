@@ -40,8 +40,8 @@
       <div class="row-fluid">
         <div class="section-header">
           <h1>
-              {{ user['Login'] | truncate(20) }}
-            <small class="light">{{ user['Lastname'] }}</small>
+              {{ user['Login'] | truncate(15, True) }}
+            <small class="light">{{ user['Lastname'] | truncate(15, True) }}</small>
           </h1>
         </div>
       </div>
@@ -68,7 +68,7 @@
             </li>
             <li>
               <i class="icon-ok gray"></i>
-                Email: {{ user['Email'] }}
+                Email: {{ user['Email'] | truncate(15, True) }}
             </li>
           </ul>
         </div>
@@ -95,11 +95,11 @@
               <figcaption>
                 <h4>
                   <a href="portfolio-item.html">
-                    {{ char_dict["Name"] }}, {{ char_dict["Level"] }} lvl
+                    {{ char_dict["Name"] | truncate(15, True) }}, {{ char_dict["Level"] }} lvl
                   </a>
                 </h4>
                 <p>
-                    comment
+                    Comment
                 </p>
               </figcaption>
             </figure>

@@ -1,8 +1,7 @@
 import datetime
-from random import choice, randint
-import requests
+from random import choice, randint, random
+
 import pymysql
-#from local.py
 from filling_db.local import user, password, database
 
 
@@ -11,7 +10,7 @@ GAME_CHARACTER_AMOUNT = 100000
 GAME_MATCH_AMOUNT = 10000
 GAMES_AMOUNT = 100000
 SET_AMOUNT = 100000
-ITEM_AMOUNT = 1000
+ITEM_AMOUNT = 100000
 CHARACTERISTICS_AMOUNT = 2000
 ABILITY_AMOUNT = 100
 CLASS_AMOUNT = 10
@@ -20,7 +19,7 @@ WORDS = []
 
 User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_date', 'Last_login_date', \
         'Birthday_date', 'Email', 'is_admin', 'is_active')
-GameCharacter = ('Character_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
+GameCharacter = ('GameCharacter_id', 'Name', 'Level', 'User_User_id', 'Characteristics_Characteristics_id', \
                  'Class_Class_id')
 Games = ('GameMatch_GameMatch_id', 'GameCharacter_GameCharacter_id')
 GameMatch = ('GameMatch_id', 'Title', 'Date_begin', 'Date_end', 'Winner_id', 'Type')
@@ -44,20 +43,18 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(choice([x for x in range(100)])) + choice(WORDS) + choice(WORDS) + choice(
-            WORDS) + str(choice([x for x in range(100)]))
+        return choice(WORDS) + str(random.randint(1, 1000000))
     else:
         try:
-            with open('filling_db/dictionary', encoding='utf-8') as dict_file:
+            with open('dictionary', encoding='utf-8') as dict_file:
                 WORDS.extend(dict_file.read().splitlines())
         except IOError:
             response = requests.get(WORD_SITE)
             response.encoding = 'utf-8'
-            with open('filling_db/dictionary', mode='w', encoding='utf-8') as dict_file:
+            with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(choice([x for x in range(10)])) + choice(WORDS) + choice(WORDS) + choice(
-            WORDS) + str(choice([x for x in range(100)]))
+        return choice(WORDS) + str(random.randint(1, 1000000))
 
 
 def get_date():
@@ -194,10 +191,8 @@ def fill_games_table():
 
 
 if __name__ == '__main__':
-    #os.fork()
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
-
     fill_user_table()
     fill_class_table()
     fill_characteristics_table()
@@ -207,5 +202,4 @@ if __name__ == '__main__':
     fill_game_set_table()
     fill_game_match_table()
     fill_games_table()
-
     connect.close()

@@ -1,34 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>List of 100 last users:</h1>
-<div>
-    <div class="panel panel-default">
-    </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <td class="col-lg-1">#</td>
-            <td class="col-lg-1">First name</td>
-            <td class="col-lg-1">Last name</td>
-            <td class="col-lg-1">Reg date</td>
-            <td class="col-lg-1">user is active</td>
-            <td class="col-lg-1">user is admin</td>
-            <td class="col-lg-1">last login date</td>
-            <td class="col-lg-1">birthday</td>
-            <td class="col-lg-1">Login</td>
-            <td class="col-lg-1">Password</td>
-            <td class="col-lg-1">email</td>
-        </tr>
-        </thead>
-        {% for user_dict in records %}
-        <tr>
-            {% for key, value in user_dict.iteritems() %}
-            <td class="col-lg-1">{{ value }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-</div>
 
-</div>
+<section class="section section-alt section-padded">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h1>
+                Список последних
+                <small class="light">100 пользователей</small>
+            </h1>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Псевдоним</th>
+                        <th>Дата регестрации</th>
+                        <th>Последний визит</th>
+                        <th>Почта</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user_dict in records %}
+                    <tr>
+                        <td><a href="/user/{{ user_dict['User_id'] }}">{{ user_dict["Login"] | truncate(15, True) }}</a>
+                        </td>
+                        <td>{{ user_dict["Registration_date"] }}</td>
+                        <td>{{ user_dict["Last_login_date"] }}</td>
+                        <td>{{ user_dict["Email"] | truncate(15, True) }}</td>
+                    </tr>
+                    {% else %}
+                        <p>Вы у нас первый, играйте и побеждайте!</p>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

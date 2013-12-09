@@ -33,15 +33,15 @@
                     <thead>
                     <tr>
                         <th>Логин</th>
-                        <th>Имя</th>
+                        <th>Персонаж</th>
                         <th>Кол-во побед</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for winner in records_win %}
                     <tr>
-                        <td><a href="/user/{{ winner['Winner_id'] }}">{{ winner["Login"] | truncate(15, True) }}</a></td>
-                        <td>{{ winner["Name"] }}</td>
+                        <td><a href="/user/{{ winner['User_id'] }}">{{ winner["Login"] | truncate(15, True) }}</a></td>
+                        <td><a href="/character/{{ winner['Winner_id'] }}">{{ winner["Name"] }}</a></td>
                         <td>{{ winner["Count_win"] }}</td>
                     </tr>
                     {% else %}

@@ -21,6 +21,7 @@ def ratio_list():
     cursor = connect.cursor()
     # самый крутых, больше побед
     sql_query = '''select GameCharacter_id,
+            User_id,
             Login,
             Name,
             Level,
@@ -110,6 +111,7 @@ def user_detail(user_id=None):
                     Class_Class_id
                     from GameCharacter
                     where User_User_id=%(id)d
+                    order by Level DESC
                 ''' % {'id': user_id}
     cursor.execute(sql_query)
     characters_record = dictfetchall(cursor)

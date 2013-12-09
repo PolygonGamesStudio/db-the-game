@@ -1,8 +1,9 @@
 #coding: utf-8
 import datetime
-from random import choice, randint, random
+from random import choice, randint
 
 import pymysql
+import requests
 from filling_db.local import user, password, database
 
 
@@ -14,7 +15,10 @@ SET_AMOUNT = 100000
 ITEM_AMOUNT = 100000
 CHARACTERISTICS_AMOUNT = 2000
 ABILITY_AMOUNT = 100
-CLASS_AMOUNT = 10
+CLASSES = (
+'Fighter', 'Thief', 'Scout', 'Engineer', 'Sniper', 'Medic', 'Spy', 'Captain', 'Demolition', 'Miner', 'Paladin',
+'Necromancer', 'Warlock')
+CLASS_AMOUNT = len(CLASSES)
 WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []
 
@@ -44,7 +48,7 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(random.randint(1, 1000000))
+        return choice(WORDS) + str(randint(1, 1000000))
     else:
         try:
             with open('dictionary', encoding='utf-8') as dict_file:
@@ -55,7 +59,7 @@ def get_word_local():
             with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(random.randint(1, 1000000))
+        return choice(WORDS) + str(randint(1, 1000000))
 
 
 def get_date():
@@ -96,8 +100,8 @@ def fill_user_table():
 
 
 def fill_class_table():
-    for i in range(CLASS_AMOUNT):
-        table_dict = {key: get_word_local() for key in Class}
+    for game_class in CLASSES:
+        table_dict = {key: game_class for key in Class}
         del table_dict['Class_id']
         fill_insert_sql(table_dict, 'Class')
         #if i % COMMIT_AMOUNT == 0:
@@ -130,7 +134,7 @@ def fill_ability_table():
 def fill_game_character_table():
     for i in range(GAME_CHARACTER_AMOUNT):
         table_dict = {key: get_word_local() for key in GameCharacter}
-        del table_dict['Character_id']
+        del table_dict['GameCharacter_id']
         table_dict['Level'] = str(randint(1, 100))
         table_dict['User_User_id'] = str(randint(1, USER_AMOUNT))
         table_dict['Class_Class_id'] = str(randint(1, CLASS_AMOUNT))
@@ -159,7 +163,7 @@ def fill_game_set_table():
     for i in range(SET_AMOUNT):
         table_dict = {key: str(randint(1, ITEM_AMOUNT)) for key in GameSet}
         del table_dict['GameSet_id']
-        table_dict['GameCharacter_GameCharacter_id'] = str(range(GAME_CHARACTER_AMOUNT))
+        table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
         fill_insert_sql(table_dict, 'GameSet')
         #if i % COMMIT_AMOUNT == 0:
         #    connect.commit()
@@ -182,9 +186,8 @@ def fill_game_match_table():
 def fill_games_table():
     for i in range(GAMES_AMOUNT):
         #table_dict = {key: None for key in Games}
-        table_dict = {}
-        table_dict['GameMatch_GameMatch_id'] = str(randint(1, GAME_MATCH_AMOUNT))
-        table_dict['GameCharacter_GameCharacter_id'] = str(randint(1, GAME_CHARACTER_AMOUNT))
+        table_dict = {'GameMatch_GameMatch_id': str(randint(1, GAME_MATCH_AMOUNT)),
+                      'GameCharacter_GameCharacter_id': str(randint(1, GAME_CHARACTER_AMOUNT))}
         fill_insert_sql(table_dict, 'Games')
         #if i % COMMIT_AMOUNT == 0:
         #    connect.commit()

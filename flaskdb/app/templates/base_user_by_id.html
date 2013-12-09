@@ -78,14 +78,13 @@
                             </a>
                             <figcaption>
                                 <h4>
-                                    <a href="portfolio-item.html">
-                                        {{ char_dict["Name"] | truncate(15, True) }}, {{ char_dict["Level"] }} lvl
+                                    <a href="/character/{{ char_dict['GameCharacter_id'] }}">
+                                        {{ char_dict["Name"] | truncate(15, True) }}
                                     </a>
                                 </h4>
+                                <p>{{ char_dict["Level"] }} lvl</p>
 
-                                <p>
-                                    FIXME! date or comment
-                                </p>
+
                             </figcaption>
                         </figure>
                     </li>
@@ -105,29 +104,29 @@
                 </h1>
             </div>
             <ul class="unstyled row-fluid">
-                {% for fight in fights%}
+                {% for match in matchs%}
                 <li class="span4">
                     <div class="row-fluid">
                         <div class="span4">
                             <div class="round-box box-small">
-                                <a class="box-inner" href="">
+                                <a class="box-inner" href="/match/{{ match['GameMatch_id'] }}">
                                     <img alt="some image" class="img-circle"
                                          src="{{ url_for('static', filename='images/assets/landscapes/landscape-3-300x300.jpg') }}"/>
                                 </a>
                             </div>
                             <h5 class="text-center light">
-                                {{ fight['Date_begin'] }}
+                                {{ match['Date_begin'] }}
                             </h5>
                         </div>
                         <div class="span8">
                             <h3>
-                                <a href="post.html">
-                                    {{ fight['Title'] | truncate(15, True) }}
+                                <a href="/match/{{ match['GameMatch_id'] }}">
+                                    {{ match['Title'] | truncate(15, True) }}
                                 </a>
                             </h3>
 
                             <p>
-                                Учавствовал в баталии, под псевдонимом <a href="/character/{{ fight['GameCharacter_id'] }}">{{ fight['Name'] | truncate(15, True) }}</a>
+                                Учавствовал в баталии, под псевдонимом <a href="/character/{{ match['GameCharacter_id'] }}">{{ match['Name'] | truncate(15, True) }}</a>
                             </p>
                         </div>
                     </div>

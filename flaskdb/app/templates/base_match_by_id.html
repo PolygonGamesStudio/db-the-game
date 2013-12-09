@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+        <!-- Promo Section -->
+<section class="section section-alt">
+  <div class="row-fluid">
+  	<div class="super-hero-unit">
+            <figure>
+              <img alt="some image" src="{{ url_for('static', filename='images/assets/landscapes/landscape-2-1250x420.jpg') }}" />
+              <figcaption class="flex-caption">
+                <h1 class="super">
+                  Огнём
+                  <span class="lighter">
+                    &amp;
+                  </span>
+                  Мечом
+                </h1>
+              </figcaption>
+            </figure>
+          </div>
+</section>
+<section class="section section-alt section-padded">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h1>
+                Матч
+                <small class="light">{{ match["Title"] | truncate(15, True) }}</small>
+            </h1>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Логин</th>
+                        <th>Класс</th>
+                        <th>Уровень</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for match in match_users %}
+                    <tr>
+                        <td><a href="/character/{{ match['GameCharacter_id'] }}">{{ match["Name"] | truncate(27, True) }}</a>
+                        </td>
+                        <td>{{ match["Type"] | truncate(15, True) }}</td>
+                        <td>{{ match["Level"] }}</td>
+                    </tr>
+                    {% else %}
+                        <p>Вы у нас первый, играйте и побеждайте!</p>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

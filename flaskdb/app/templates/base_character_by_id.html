@@ -99,24 +99,24 @@
                 </h1>
             </div>
             <ul class="unstyled row-fluid">
-                {% for fight in fights%}
+                {% for match in matchs%}
                 <li class="span4">
                     <div class="row-fluid">
                         <div class="span4">
                             <div class="round-box box-small">
-                                <a class="box-inner" href="">
+                                <a class="box-inner" href="/match/{{match['GameMatch_id']}}">
                                     <img alt="some image" class="img-circle"
                                          src="{{ url_for('static', filename='images/assets/landscapes/landscape-3-300x300.jpg') }}"/>
                                 </a>
                             </div>
                             <h5 class="text-center light">
-                                {{ fight['Date_begin'] }}
+                                {{ match['Date_begin'] }}
                             </h5>
                         </div>
                         <div class="span8">
                             <h3>
-                                <a href="post.html">
-                                    {{ fight['Title'] | truncate(15, True) }}
+                                <a href="/match/{{match['GameMatch_id']}}">
+                                    {{ match['Title'] | truncate(15, True) }}
                                 </a>
                             </h3>
 
@@ -142,24 +142,24 @@
                 </h1>
             </div>
             <ul class="unstyled row-fluid">
-                {% for fight in win_fights%}
+                {% for match in matchs%}
                 <li class="span4">
                     <div class="row-fluid">
                         <div class="span4">
                             <div class="round-box box-small">
-                                <a class="box-inner" href="">
+                                <a class="box-inner" href="/match/{{match['GameMatch_id']}}">
                                     <img alt="some image" class="img-circle"
                                          src="{{ url_for('static', filename='images/assets/landscapes/landscape-3-300x300.jpg') }}"/>
                                 </a>
                             </div>
                             <h5 class="text-center light">
-                                {{ fight['Date_begin'] }}
+                                {{ match['Date_begin'] }}
                             </h5>
                         </div>
                         <div class="span8">
                             <h3>
-                                <a href="post.html">
-                                    {{ fight['Title'] | truncate(15, True) }}
+                                <a href="/match/{{match['GameMatch_id']}}">
+                                    {{ match['Title'] | truncate(15, True) }}
                                 </a>
                             </h3>
 

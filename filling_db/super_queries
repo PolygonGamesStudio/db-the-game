@@ -3,3 +3,9 @@ select Item_id, Title, max(Health + Armor + Damage + Manna) from Characteristics
 
 #среднее количество жизней\дамага\маны\брони для все классов в игре
 select Type,AVG(Health),AVG(Armor),AVG(Damage),AVG(Manna) from Ability join Class on Class_Class_id = Class_id join Characteristics on Characteristics_Characteristics_id = Characteristics_id group by Type;
+
+20 лучших игроков
+select Login, Name, Level, count_win from (select winner_id, count(*) as count_win from GameMatch group by winner_id order by count_win DESC limit 20) as t join GameCharacter on t.winner_id = GameCharacter_id join User on User_User_id = User_id;
+
+самые популярные классы
+select Type, count_class from (select Class_Class_id, count(*) as count_class from GameCharacter group by Class_Class_id order by count_class DESC limit 20) as t join Class on Class_Class_id = Class_id;

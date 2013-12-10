@@ -3,3 +3,6 @@ flask-db
 
 The first project using the flask. For homework on databases.
 Techpark
+
+TODO:
+[*] связь многие-ко-многим --> индекс на два поля

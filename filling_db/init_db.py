@@ -82,7 +82,7 @@ def fill_insert_sql(column_dict, table):
     try:
         sql_query = 'INSERT INTO ' + str(table) + "(" + ", ".join(column_dict.keys()) + ")" + ' VALUES ("' + \
                     '" , "'.join(column_dict.values()) + '")'
-        print(sql_query)
+        # print(sql_query)
         cursor.execute(sql_query)
         return True
     except pymysql.DatabaseError as e:
@@ -202,12 +202,21 @@ if __name__ == '__main__':
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
     fill_user_table()
+    print("users were added")
     fill_class_table()
+    print("classes were added")
     fill_characteristics_table()
+    print("characteristics were added")
     fill_ability_table()
+    print("abilities were added")
     fill_game_character_table()
+    print("characters were added")
     fill_item_table()
+    print("items were added")
     fill_game_set_table()
+    print("sets were added")
     fill_game_match_table()
+    print("matches were added")
     fill_games_table()
+    print("games were added with players")
     connect.close()

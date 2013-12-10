@@ -36,7 +36,7 @@ def ratio_list():
                 limit 13
             ) as t
             join GameCharacter on t.winner_id = GameCharacter_id
-            join User on User_User_id = User_id
+            join User on User_User_id = User_id;
             '''
     cursor.execute(sql_query)
     records_count_win = dictfetchall(cursor)
@@ -85,7 +85,7 @@ def user_list():
                     from User
                     where is_active = 1
                     order by Last_login_date DESC
-                    limit 100'''
+                    limit 100;'''
 
     cursor.execute(sql_query)
     records = dictfetchall(cursor)
@@ -110,7 +110,7 @@ def user_detail(user_id=None):
                                 is_admin,
                                 is_active
                                 from User
-                                where User_id = %(id)d
+                                where User_id = %(id)d;
                             ''' % {'id': user_id}
     cursor.execute(sql_query_to_get_user)
     user_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
@@ -123,7 +123,7 @@ def user_detail(user_id=None):
                     Class_Class_id
                     from GameCharacter
                     where User_User_id=%(id)d
-                    order by Level DESC
+                    order by Level DESC;
                 ''' % {'id': user_id}
     cursor.execute(sql_query)
     characters_record = dictfetchall(cursor)
@@ -155,7 +155,7 @@ def character_detail(character_id=None):
                     Type
                     from GameCharacter
                     join Class on Class_Class_id = Class_id
-                    where GameCharacter_id = %(id)d
+                    where GameCharacter_id = %(id)d;
                         ''' % {'id': character_id}
     cursor.execute(sql_query)
     character_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
@@ -165,7 +165,7 @@ def character_detail(character_id=None):
                         max(Health + Armor + Damage + Manna)
                         from Characteristics
                         join Item on Characteristics_Characteristics_id = Characteristics_id
-                        where GameCharacter_GameCharacter_id = %(id)d
+                        where GameCharacter_GameCharacter_id = %(id)d;
                             ''' % {'id': character_id}
     cursor.execute(sql_query)
     super_item_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))

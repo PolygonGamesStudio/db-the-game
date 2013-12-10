@@ -1,6 +1,6 @@
 use gamedb;
 
-# 13 персонажей, у которых больше всего побед
+# 13 (чёртова дюжина) персонажей, у которых больше всего побед
 explain select GameCharacter_id,
             User_id,
             Login,
@@ -72,7 +72,7 @@ explain select GameCharacter_id,
                     where User_User_id= 57 # вариативно
                     order by Level DESC;
 
-#
+# последние матчи, в которых учавствовал user(т.е. все его персонажи)
 explain select GameMatch_id,
                 GameCharacter_id,
                 Name,
@@ -84,6 +84,7 @@ explain select GameMatch_id,
                 order by Date_begin DESC
                 limit 3;
 
+# статы персонажа
 explain select Name,
                     Level,
                     Type
@@ -91,6 +92,7 @@ explain select Name,
                     join Class on Class_Class_id = Class_id
                     where GameCharacter_id = 57;
 
+# самый сильный предмет у персонажа
 explain select Item_id,
                         Title,
                         max(Health + Armor + Damage + Manna)
@@ -98,6 +100,7 @@ explain select Item_id,
                         join Item on Characteristics_Characteristics_id = Characteristics_id
                         where GameCharacter_GameCharacter_id = 57; #
 
+# последние три боя, в которых он учавствовал
 explain select GameMatch_id,
                 GameCharacter_id,
                 Name,
@@ -109,7 +112,7 @@ explain select GameMatch_id,
                 order by Date_begin DESC
                 limit 3;
 
-#
+# шесть предметов конкретного персонажа
 select
                     Title,
                     Description,
@@ -119,10 +122,10 @@ select
                     Manna
                     from Item
                     join Characteristics on Characteristics_Characteristics_id = Characteristics_id
-                    where GameCharacter_GameCharacter_id = 57 #
+                    where GameCharacter_GameCharacter_id = 57 # вариативно
                     limit 6;
 
-#
+# матчи, в которых персонаж выиграл (через таблицу для многие-ко-многим)
 select GameMatch_id,
                     GameCharacter_id,
                     Name,
@@ -135,7 +138,7 @@ select GameMatch_id,
                     order by Date_begin DESC
                     limit 3;
 
-#
+# инфа о матче по id, кто в нём учавствует и каких классов
 select GameMatch_id,
             Title,
             Date_begin,
@@ -149,14 +152,14 @@ select GameMatch_id,
                 Title,
                 Date_begin,
                 Date_end
-                from GameMatch where GameMatch_id = 57 #
+                from GameMatch where GameMatch_id = 57 # вариативно
             ) as t
             join Games on  GameMatch_GameMatch_id = GameMatch_id
             join GameCharacter on GameCharacter_GameCharacter_id = GameCharacter_id
             join Class on Class_Class_id = Class_id;
 
-#
-select GameMatch_id,
+# последние 100 матчей по времени окончания матча
+explain select GameMatch_id,
                     Title,
                     Type,
                     Name,
@@ -174,3 +177,14 @@ select GameMatch_id,
                     ) as t
                     join GameCharacter on GameCharacter_id = Winner_id
                     order by Date_end DESC;
+
+# среднее кол-во жизни, брони, урона, манны для всех классов в игре
+explain select Type,
+                AVG(Health),
+                AVG(Armor),
+                AVG(Damage),
+                AVG(Manna)
+                from Ability
+                join Class on Class_Class_id = Class_id
+                join Characteristics on Characteristics_Characteristics_id = Characteristics_id
+                group by Type;

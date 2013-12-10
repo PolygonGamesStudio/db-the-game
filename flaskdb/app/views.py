@@ -56,6 +56,7 @@ def ratio_list():
                 '''
     cursor.execute(sql_query)
     records_count_class = dictfetchall(cursor)
+    # среднее кол-во жизни, брони, урона, манны для всех классов в игре
     sql_query = '''select Type,
                 AVG(Health),
                 AVG(Armor),
@@ -75,6 +76,7 @@ def ratio_list():
 def user_list():
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
+    # 100 последних активных пользователей
     sql_query = '''select
                     User_id,
                     Login,
@@ -97,6 +99,7 @@ def user_list():
 def user_detail(user_id=None):
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
+    # инфо о пользователе по id
     sql_query_to_get_user = '''
                                 select User_id,
                                 Firstname,
@@ -114,6 +117,7 @@ def user_detail(user_id=None):
                             ''' % {'id': user_id}
     cursor.execute(sql_query_to_get_user)
     user_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
+    # все персонажи конкретного пользователя
     sql_query = '''
                     select GameCharacter_id,
                     Name,
@@ -127,7 +131,7 @@ def user_detail(user_id=None):
                 ''' % {'id': user_id}
     cursor.execute(sql_query)
     characters_record = dictfetchall(cursor)
-    #last matchs
+    # последние матчи, в которых учавствовал user(т.е. все его персонажи)
     sql_query = '''
                 select GameMatch_id,
                 GameCharacter_id,
@@ -149,6 +153,7 @@ def user_detail(user_id=None):
 def character_detail(character_id=None):
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
+    # статы персонажа
     sql_query = '''
     select User_id,
                 Login,
@@ -163,6 +168,7 @@ def character_detail(character_id=None):
                         ''' % {'id': character_id}
     cursor.execute(sql_query)
     character_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
+    # самый сильный предмет у персонажа
     sql_query = '''
                         select Item_id,
                         Title,
@@ -173,7 +179,7 @@ def character_detail(character_id=None):
                             ''' % {'id': character_id}
     cursor.execute(sql_query)
     super_item_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))
-
+    # последние три боя, в которых он учавствовал
     sql_query = '''
                 select GameMatch_id,
                 GameCharacter_id,
@@ -188,6 +194,7 @@ def character_detail(character_id=None):
                     ''' % {'id': character_id}
     cursor.execute(sql_query)
     matchs_record = dictfetchall(cursor)
+    # шесть предметов конкретного персонажа
     sql_query = '''
                     select
                     Title,
@@ -203,6 +210,7 @@ def character_detail(character_id=None):
                 ''' % {'id': character_id}
     cursor.execute(sql_query)
     items_record = dictfetchall(cursor)
+    # матчи, в которых персонаж выиграл (через таблицу для многие-ко-многим)
     sql_query = '''
                     select GameMatch_id,
                     GameCharacter_id,
@@ -226,6 +234,7 @@ def character_detail(character_id=None):
 def match_detail(match_id=None):
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
+    # инфа о матче по id, кто в нём учавствует и каких классов
     sql_query = '''
             select GameMatch_id,
             Title,
@@ -254,6 +263,7 @@ def match_detail(match_id=None):
 def match_list():
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
+    # последние 100 матчей по времени окончания матча
     sql_query = '''select GameMatch_id,
                     Title,
                     Type,

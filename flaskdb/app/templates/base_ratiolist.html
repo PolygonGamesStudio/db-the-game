@@ -80,6 +80,41 @@
                 </table>
             </div>
         </div>
+        <!-- игроки по классам -->
+        <div class="section-header">
+            <h1>
+                Cреднее по
+                <small class="light">классы</small>
+            </h1>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Класс</th>
+                        <th>Среднее кол-во жизней</th>
+                        <th>Среднее кол-во брони</th>
+                        <th>Среднее кол-во урона</th>
+                        <th>Среднее кол-во манны</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for class in avg_class %}
+                    <tr>
+                        <td>{{ class["Type"] }}</td>
+                        <td>{{ class["AVG(Health)"] }}</td>
+                        <td>{{ class["AVG(Armor)"] }}</td>
+                        <td>{{ class["AVG(Damage)"] }}</td>
+                        <td>{{ class["AVG(Manna)"] }}</td>
+                    </tr>
+                    {% else %}
+                        <p>Пока нет статистики!</p>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </section>
 

@@ -56,8 +56,20 @@ def ratio_list():
                 '''
     cursor.execute(sql_query)
     records_count_class = dictfetchall(cursor)
-
-    return render_template('base_ratiolist.html', records_win=records_count_win, records_class=records_count_class)
+    sql_query = '''select Type,
+                AVG(Health),
+                AVG(Armor),
+                AVG(Damage),
+                AVG(Manna)
+                from Ability
+                join Class on Class_Class_id = Class_id
+                join Characteristics on Characteristics_Characteristics_id = Characteristics_id
+                group by Type;
+                    '''
+    cursor.execute(sql_query)
+    records_avg_class = dictfetchall(cursor)
+    return render_template('base_ratiolist.html', records_win=records_count_win, records_class=records_count_class, \
+                           avg_class=records_avg_class)
 
 @app.route('/userlist', methods=['GET'])
 def user_list():

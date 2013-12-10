@@ -6,7 +6,7 @@ import pymysql
 import requests
 from filling_db.local import user, password, database
 
-MIN = 1000
+MIN = 1000000
 
 USER_AMOUNT = 1 * MIN
 GAME_CHARACTER_AMOUNT = 3 * MIN
@@ -23,7 +23,8 @@ CLASSES = (
     'Fighter', 'Thief', 'Scout', 'Engineer', 'Sniper', 'Medic', 'Spy', 'Captain', 'Demolition', 'Miner', 'Paladin',
     'Necromancer', 'Warlock')
 CLASS_AMOUNT = len(CLASSES)
-WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
+WORD_SITE = "http://www.freebsd.org/cgi/cvswe" \
+            "b.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []
 
 User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_date', 'Last_login_date', \
@@ -52,7 +53,7 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(randint(1, 1000000))
+        return choice(WORDS) + str(randint(1, MIN))
     else:
         try:
             with open('dictionary', encoding='utf-8') as dict_file:
@@ -63,7 +64,7 @@ def get_word_local():
             with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(randint(1, 1000000))
+        return choice(WORDS) + str(randint(1, MIN))
 
 
 def get_date():

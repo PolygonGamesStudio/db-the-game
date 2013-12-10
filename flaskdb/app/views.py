@@ -1,6 +1,7 @@
 #coding: utf-8
-from flask import render_template
 import pymysql
+
+from flask import render_template
 from flaskdb.app import app
 from filling_db.local import user, password, database
 
@@ -56,7 +57,7 @@ def ratio_list():
                 '''
     cursor.execute(sql_query)
     records_count_class = dictfetchall(cursor)
-    # среднее кол-во жизни, брони, урона, манны для всех классов в игре
+    # среднее кол-во жизни, брони, урона, манны для каждого класса в игре
     sql_query = '''select Type,
                 AVG(Health),
                 AVG(Armor),

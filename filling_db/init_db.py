@@ -1,3 +1,4 @@
+#coding: utf-8
 import datetime
 from random import choice, randint
 
@@ -5,18 +6,22 @@ import pymysql
 import requests
 from filling_db.local import user, password, database
 
+MIN = 1000
 
-USER_AMOUNT = 10000
-GAME_CHARACTER_AMOUNT = 100000
-GAME_MATCH_AMOUNT = 10000
-GAMES_AMOUNT = 100000
-SET_AMOUNT = 100000
-ITEM_AMOUNT = 100000
-CHARACTERISTICS_AMOUNT = 2000
-ABILITY_AMOUNT = 100
+USER_AMOUNT = 1 * MIN
+GAME_CHARACTER_AMOUNT = 3 * MIN
+GAME_MATCH_AMOUNT = 1 * MIN
+GAMES_AMOUNT = 3 * MIN
+SET_AMOUNT = 4 * MIN
+ITEM_AMOUNT = 5 * MIN
+CHARACTERISTICS_AMOUNT = 5 * MIN
+ABILITIES = (
+'Fireball', 'Blessing', 'Bash', 'Wraith', 'Snowfall', 'Frostbite Bolt', 'Fire Blast', 'Resurrection', 'Curse',
+'Invisibility', 'Blizzard')
+ABILITY_AMOUNT = len(ABILITIES)
 CLASSES = (
-'Fighter', 'Thief', 'Scout', 'Engineer', 'Sniper', 'Medic', 'Spy', 'Captain', 'Demolition', 'Miner', 'Paladin',
-'Necromancer', 'Warlock')
+    'Fighter', 'Thief', 'Scout', 'Engineer', 'Sniper', 'Medic', 'Spy', 'Captain', 'Demolition', 'Miner', 'Paladin',
+    'Necromancer', 'Warlock')
 CLASS_AMOUNT = len(CLASSES)
 WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []
@@ -31,7 +36,7 @@ Class = ('Class_id', 'Type')
 Ability = ('Ability_id', 'Class_Class_id', 'Characteristics_Characteristics_id', 'Title', 'Description')
 Characteristics = ('Characteristics_id', 'Health', 'Armor', 'Damage', 'Manna')
 GameSet = (
-'GameSet_id', 'Head_Item_id', 'Body_Item_id', 'Special_Item_id', 'Weapon_Item_id', 'GameCharacter_GameCharacter_id')
+    'GameSet_id', 'Head_Item_id', 'Body_Item_id', 'Special_Item_id', 'Weapon_Item_id', 'GameCharacter_GameCharacter_id')
 Item = (
     'Item_id', 'Title', 'Description', 'GameCharacter_GameCharacter_id', 'Amount', 'Characteristics_Characteristics_id',
     'Item_type')

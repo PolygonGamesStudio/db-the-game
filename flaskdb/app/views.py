@@ -150,12 +150,16 @@ def character_detail(character_id=None):
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
     sql_query = '''
-                    select Name,
-                    Level,
-                    Type
-                    from GameCharacter
-                    join Class on Class_Class_id = Class_id
-                    where GameCharacter_id = %(id)d;
+    select User_id,
+                Login,
+                GameCharacter_id,
+                Name,
+                Level,
+                Type
+                from GameCharacter
+                join Class on Class_Class_id = Class_id
+                join User on User_id = User_User_id
+                where GameCharacter_id = %(id)d;
                         ''' % {'id': character_id}
     cursor.execute(sql_query)
     character_record = dict(zip([col[0] for col in cursor.description], cursor.fetchall()[0]))

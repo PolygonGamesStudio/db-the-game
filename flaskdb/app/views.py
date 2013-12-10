@@ -278,7 +278,7 @@ def match_list():
                         Winner_id,
                         Date_end
                         from GameMatch
-                        order by Date_end
+                        order by Date_end DESC
                         limit 100
                     ) as t
                     join GameCharacter on GameCharacter_id = Winner_id

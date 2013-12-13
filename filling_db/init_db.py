@@ -1,14 +1,19 @@
 #coding: utf-8
-import os, hashlib
+import os
+import hashlib
 import time
 from random import choice, randint
 import datetime
 
 import pymysql
 import requests
+
 from filling_db.local import user, password, database
 
-MIN = 1000
+
+FORK_AMOUNT = 4
+
+MIN = 350000 // FORK_AMOUNT
 
 USER_AMOUNT = 1 * MIN
 GAME_CHARACTER_AMOUNT = 3 * MIN
@@ -16,10 +21,10 @@ GAME_MATCH_AMOUNT = 1 * MIN
 GAMES_AMOUNT = 3 * MIN
 SET_AMOUNT = 4 * MIN
 ITEM_AMOUNT = 5 * MIN
-CHARACTERISTICS_AMOUNT = 5 * MIN
+CHARACTERISTICS_AMOUNT = 5 * MIN * FORK_AMOUNT  # необходимо предварительное выполнение
 ABILITIES = (
-'Fireball', 'Blessing', 'Bash', 'Wraith', 'Snowfall', 'Frostbite Bolt', 'Fire Blast', 'Resurrection', 'Curse',
-'Invisibility', 'Blizzard')
+    'Fireball', 'Blessing', 'Bash', 'Wraith', 'Snowfall', 'Frostbite Bolt', 'Fire Blast', 'Resurrection', 'Curse',
+    'Invisibility', 'Blizzard')
 ABILITY_AMOUNT = len(ABILITIES)
 CLASSES = (
     'Fighter', 'Thief', 'Scout', 'Engineer', 'Sniper', 'Medic', 'Spy', 'Captain', 'Demolition', 'Miner', 'Paladin',
@@ -49,8 +54,9 @@ def how_long(f):
     def tmp(*args, **kwargs):
         t = time.time()
         res = f(*args, **kwargs)
-        print("time: {0}".format(time.time()-t))
+        print("time: {0}".format(time.time() - t))
         return res
+
     return tmp
 
 
@@ -64,7 +70,7 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(randint(1, 1000000)) + hashlib.sha1(os.urandom(512)).hexdigest()[7:11]
+        return choice(WORDS) + hashlib.sha1(os.urandom(512)).hexdigest()[7:15]
     else:
         try:
             with open('dictionary', encoding='utf-8') as dict_file:
@@ -75,7 +81,7 @@ def get_word_local():
             with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(randint(1, 1000000)) + hashlib.sha1(os.urandom(512)).hexdigest()[7:11]
+        return choice(WORDS) + hashlib.sha1(os.urandom(512)).hexdigest()[7:15]
 
 
 def get_date():
@@ -101,6 +107,7 @@ def fill_insert_sql(column_dict, table):
         print(e)
         return False
 
+
 @how_long
 def fill_user_table():
     for i in range(USER_AMOUNT):
@@ -115,6 +122,7 @@ def fill_user_table():
     connect.commit()
 
 
+@how_long
 def fill_class_table():
     for game_class in CLASSES:
         table_dict = {key: game_class for key in Class}
@@ -125,6 +133,7 @@ def fill_class_table():
     connect.commit()
 
 
+@how_long
 def fill_characteristics_table():
     for i in range(CHARACTERISTICS_AMOUNT):
         table_dict = {key: str(randint(0, 100)) for key in Characteristics}
@@ -135,6 +144,7 @@ def fill_characteristics_table():
     connect.commit()
 
 
+@how_long
 def fill_ability_table():
     for i in range(ABILITY_AMOUNT):
         table_dict = {key: get_word_local() for key in Ability}
@@ -147,6 +157,7 @@ def fill_ability_table():
     connect.commit()
 
 
+@how_long
 def fill_game_character_table():
     for i in range(GAME_CHARACTER_AMOUNT):
         table_dict = {key: get_word_local() for key in GameCharacter}
@@ -161,6 +172,7 @@ def fill_game_character_table():
     connect.commit()
 
 
+@how_long
 def fill_item_table():
     for i in range(ITEM_AMOUNT):
         table_dict = {key: get_word_local() for key in Item}
@@ -175,6 +187,7 @@ def fill_item_table():
     connect.commit()
 
 
+@how_long
 def fill_game_set_table():
     for i in range(SET_AMOUNT):
         table_dict = {key: str(randint(1, ITEM_AMOUNT)) for key in GameSet}
@@ -186,6 +199,7 @@ def fill_game_set_table():
     connect.commit()
 
 
+@how_long
 def fill_game_match_table():
     for i in range(GAME_MATCH_AMOUNT):
         table_dict = {key: get_word_local() for key in GameMatch}
@@ -199,6 +213,7 @@ def fill_game_match_table():
     connect.commit()
 
 
+@how_long
 def fill_games_table():
     for i in range(GAMES_AMOUNT):
         #table_dict = {key: None for key in Games}
@@ -211,25 +226,33 @@ def fill_games_table():
 
 
 if __name__ == '__main__':
-    os.fork()
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
-    fill_user_table()
-    print("users were added")
-    fill_class_table()
-    print("classes were added")
-    fill_characteristics_table()
-    print("characteristics were added")
-    fill_ability_table()
-    print("abilities were added")
+    #
+    # fill_class_table()
+    # print("classes were added")
+    # fill_characteristics_table()
+    # print("characteristics were added")
+    # fill_ability_table()
+    # print("abilities were added")
+    #
+    # connect.close()
+    #
+    # os.fork()
+    # os.fork()
+    # connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
+    # cursor = connect.cursor()
+    # fill_user_table()
+    # print("users were added")
+    #
     fill_game_character_table()
-    print("characters were added")
-    fill_item_table()
-    print("items were added")
-    fill_game_set_table()
-    print("sets were added")
-    fill_game_match_table()
-    print("matches were added")
-    fill_games_table()
-    print("games were added with players")
+    # print("characters were added")
+    # fill_item_table()
+    # print("items were added")
+    # fill_game_set_table()
+    # print("sets were added")
+    # fill_game_match_table()
+    # print("matches were added")
+    # fill_games_table()
+    # print("games were added with players")
     connect.close()

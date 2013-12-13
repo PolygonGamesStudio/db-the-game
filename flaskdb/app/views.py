@@ -4,7 +4,6 @@ import pymysql
 from flaskdb.app import app
 from filling_db.local import user, password, database
 
-
 def dictfetchall(cursor):
     "Returns all rows from a cursor as a dict"
     desc = cursor.description

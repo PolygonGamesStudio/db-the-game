@@ -1,12 +1,23 @@
 #coding: utf-8
-import datetime
+import os, hashlib
+import time
 from random import choice, randint
+import datetime
 
 import pymysql
 import requests
 from filling_db.local import user, password, database
 
-MIN = 1000
+'''
+import os, hashlib
+def gen():
+    return hashlib.sha1(os.urandom(512)).hexdigest()
+
+test = [gen() for i in range(100000)]
+print len(test), len(set(test))
+'''
+
+MIN = 100
 
 USER_AMOUNT = 1 * MIN
 GAME_CHARACTER_AMOUNT = 3 * MIN
@@ -42,6 +53,15 @@ Item = (
     'Item_type')
 
 
+def how_long(f):
+    def tmp(*args, **kwargs):
+        t = time.time()
+        res = f(*args, **kwargs)
+        print("time: {0}".format(time.time()-t))
+        return res
+    return tmp
+
+
 def get_word_local():
     """
     функция возвращает слово, состоящее из двух слов, выбранных случайно
@@ -52,7 +72,7 @@ def get_word_local():
     """
     global WORDS
     if WORDS:
-        return choice(WORDS) + str(randint(1, 1000000))
+        return choice(WORDS) + str(randint(1, 1000000)) + hashlib.sha1(os.urandom(512)).hexdigest()[7:11]
     else:
         try:
             with open('dictionary', encoding='utf-8') as dict_file:
@@ -63,7 +83,7 @@ def get_word_local():
             with open('dictionary', mode='w', encoding='utf-8') as dict_file:
                 dict_file.write(response.text)
             WORDS.extend(response.text.splitlines())
-        return choice(WORDS) + str(randint(1, 1000000))
+        return choice(WORDS) + str(randint(1, 1000000)) + hashlib.sha1(os.urandom(512)).hexdigest()[7:11]
 
 
 def get_date():
@@ -89,7 +109,7 @@ def fill_insert_sql(column_dict, table):
         print(e)
         return False
 
-
+@how_long
 def fill_user_table():
     for i in range(USER_AMOUNT):
         table_dict = {key: get_word_local() for key in User}
@@ -199,24 +219,25 @@ def fill_games_table():
 
 
 if __name__ == '__main__':
+    os.fork()
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
     fill_user_table()
     print("users were added")
-    fill_class_table()
-    print("classes were added")
-    fill_characteristics_table()
-    print("characteristics were added")
-    fill_ability_table()
-    print("abilities were added")
-    fill_game_character_table()
-    print("characters were added")
-    fill_item_table()
-    print("items were added")
-    fill_game_set_table()
-    print("sets were added")
-    fill_game_match_table()
-    print("matches were added")
-    fill_games_table()
-    print("games were added with players")
+    #fill_class_table()
+    #print("classes were added")
+    #fill_characteristics_table()
+    #print("characteristics were added")
+    #fill_ability_table()
+    #print("abilities were added")
+    #fill_game_character_table()
+    #print("characters were added")
+    #fill_item_table()
+    #print("items were added")
+    #fill_game_set_table()
+    #print("sets were added")
+    #fill_game_match_table()
+    #print("matches were added")
+    #fill_games_table()
+    #print("games were added with players")
     connect.close()

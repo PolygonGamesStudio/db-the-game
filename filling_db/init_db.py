@@ -8,16 +8,7 @@ import pymysql
 import requests
 from filling_db.local import user, password, database
 
-'''
-import os, hashlib
-def gen():
-    return hashlib.sha1(os.urandom(512)).hexdigest()
-
-test = [gen() for i in range(100000)]
-print len(test), len(set(test))
-'''
-
-MIN = 100
+MIN = 1000
 
 USER_AMOUNT = 1 * MIN
 GAME_CHARACTER_AMOUNT = 3 * MIN
@@ -34,7 +25,8 @@ CLASSES = (
     'Fighter', 'Thief', 'Scout', 'Engineer', 'Sniper', 'Medic', 'Spy', 'Captain', 'Demolition', 'Miner', 'Paladin',
     'Necromancer', 'Warlock')
 CLASS_AMOUNT = len(CLASSES)
-WORD_SITE = "http://www.freebsd.org/cgi/cvsweb.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
+WORD_SITE = "http://www.freebsd.org/cgi/cvswe" \
+            "b.cgi/src/share/dict/web2?rev=1.12;content-type=text%2Fplain"
 WORDS = []
 
 User = ('User_id', 'Firstname', 'Lastname', 'Login', 'Password', 'Registration_date', 'Last_login_date', \
@@ -224,20 +216,20 @@ if __name__ == '__main__':
     cursor = connect.cursor()
     fill_user_table()
     print("users were added")
-    #fill_class_table()
-    #print("classes were added")
-    #fill_characteristics_table()
-    #print("characteristics were added")
-    #fill_ability_table()
-    #print("abilities were added")
-    #fill_game_character_table()
-    #print("characters were added")
-    #fill_item_table()
-    #print("items were added")
-    #fill_game_set_table()
-    #print("sets were added")
-    #fill_game_match_table()
-    #print("matches were added")
-    #fill_games_table()
-    #print("games were added with players")
+    fill_class_table()
+    print("classes were added")
+    fill_characteristics_table()
+    print("characteristics were added")
+    fill_ability_table()
+    print("abilities were added")
+    fill_game_character_table()
+    print("characters were added")
+    fill_item_table()
+    print("items were added")
+    fill_game_set_table()
+    print("sets were added")
+    fill_game_match_table()
+    print("matches were added")
+    fill_games_table()
+    print("games were added with players")
     connect.close()

@@ -178,7 +178,7 @@ explain select GameMatch_id,
                     join GameCharacter on GameCharacter_id = Winner_id
                     order by Date_end DESC;
 
-# среднее кол-во жизни, брони, урона, манны для всех классов в игре
+# среднее кол-во жизни, брони, урона, манны для каждого класса в игре
 explain select Type,
                 AVG(Health),
                 AVG(Armor),

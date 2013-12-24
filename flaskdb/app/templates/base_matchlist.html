@@ -2,21 +2,22 @@
 {% block content %}
 
 <section class="section section-alt">
-  <div class="row-fluid">
-    <div class="super-hero-unit">
+    <div class="row-fluid">
+        <div class="super-hero-unit">
             <figure>
-              <img alt="some image" src="{{ url_for('static', filename='images/assets/landscapes/landscape-3-1250x420.jpg') }}" />
-              <figcaption class="flex-caption">
-                <h1 class="super">
-                  Огнём
+                <img alt="some image"
+                     src="{{ url_for('static', filename='images/assets/landscapes/landscape-3-1250x420.jpg') }}"/>
+                <figcaption class="flex-caption">
+                    <h1 class="super">
+                        Огнём
                   <span class="lighter">
                     &amp;
                   </span>
-                  Мечом
-                </h1>
-              </figcaption>
+                        Мечом
+                    </h1>
+                </figcaption>
             </figure>
-          </div>
+        </div>
 </section>
 <section class="section section-alt section-padded">
     <div class="container-fluid">
@@ -42,10 +43,11 @@
                         <td><a href="/match/{{ match['GameMatch_id'] }}">{{ match["Title"] | truncate(15, True) }}</a>
                         </td>
                         <td>{{ match["Type"] }}</td>
-                        <td><a href="/character/{{match['Winner_id']}}">{{ match["Name"] | truncate(15, True) }} {{match["Level"]}} Lvl</a></td>
+                        <td><a href="/character/{{match['Winner_id']}}">{{ match["Name"] | truncate(15, True) }}
+                            {{match["Level"]}} Lvl</a></td>
                     </tr>
                     {% else %}
-                        <p>Вы у нас первый, играйте и побеждайте!</p>
+                    <p>Вы у нас первый, играйте и побеждайте!</p>
                     {% endfor %}
                     </tbody>
                 </table>

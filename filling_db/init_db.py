@@ -1,19 +1,15 @@
 #coding: utf-8
-import os
-import hashlib
+import os, hashlib
 import time
 from random import choice, randint
 import datetime
 
 import pymysql
 import requests
-
 from filling_db.local import user, password, database
 
-
-FORK_AMOUNT = 4
-
-MIN = 350000 // FORK_AMOUNT
+MIN = 1000
+FORK_AMOUNT = 1
 
 USER_AMOUNT = 1 * MIN
 GAME_CHARACTER_AMOUNT = 3 * MIN
@@ -106,7 +102,6 @@ def fill_insert_sql(column_dict, table):
     except pymysql.DatabaseError as e:
         print(e)
         return False
-
 
 @how_long
 def fill_user_table():
@@ -228,31 +223,28 @@ def fill_games_table():
 if __name__ == '__main__':
     connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
     cursor = connect.cursor()
-    #
-    # fill_class_table()
-    # print("classes were added")
-    # fill_characteristics_table()
-    # print("characteristics were added")
-    # fill_ability_table()
-    # print("abilities were added")
-    #
-    # connect.close()
-    #
-    # os.fork()
-    # os.fork()
-    # connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
-    # cursor = connect.cursor()
-    # fill_user_table()
-    # print("users were added")
-    #
+
+    fill_class_table()
+    print("classes were added")
+    fill_characteristics_table()
+    print("characteristics were added")
+    fill_ability_table()
+    print("abilities were added")
+    connect.close()
+
+    connect = pymysql.connect(host='127.0.0.1', user=user, passwd=password, db=database)
+    cursor = connect.cursor()
+    fill_user_table()
+    print("users were added")
+
     fill_game_character_table()
-    # print("characters were added")
-    # fill_item_table()
-    # print("items were added")
-    # fill_game_set_table()
-    # print("sets were added")
-    # fill_game_match_table()
-    # print("matches were added")
-    # fill_games_table()
-    # print("games were added with players")
+    print("characters were added")
+    fill_item_table()
+    print("items were added")
+    fill_game_set_table()
+    print("sets were added")
+    fill_game_match_table()
+    print("matches were added")
+    fill_games_table()
+    print("games were added with players")
     connect.close()

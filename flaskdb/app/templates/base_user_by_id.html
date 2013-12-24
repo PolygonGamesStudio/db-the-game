@@ -7,7 +7,8 @@
         <div class="row-fluid">
             <div class="super-hero-unit">
                 <figure>
-                    <img alt="some image" src="{{ url_for('static', filename="images/assets/landscapes/landscape-1-1250x300.jpg") }}" />
+                    <img alt="some image" src="{{ url_for('static', filename=" images/assets/landscapes/landscape-1-1250x300.jpg")
+                    }}" />
                     <figcaption class="flex-caption">
                         <h1 class="super animated fadeinup delayed">
                             Об Игроке
@@ -29,7 +30,8 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <img alt="some image" class="push-bottom" src='{{ url_for("static", filename="images/assets/people/woman-2-800x800.jpg") }}'/>
+                    <img alt="some image" class="push-bottom"
+                         src='{{ url_for("static", filename="images/assets/people/woman-2-800x800.jpg") }}'/>
                 </div>
                 <div class="span6">
                     <p class="lead">
@@ -82,6 +84,7 @@
                                         {{ char_dict["Name"] | truncate(15, True) }}
                                     </a>
                                 </h4>
+
                                 <p>{{ char_dict["Level"] }} lvl</p>
 
 
@@ -89,7 +92,7 @@
                         </figure>
                     </li>
                     {% else %}
-                        <p>У Вас нет персонажей, создадите и играйте!</p>
+                    <p>У Вас нет персонажей, создадите и играйте!</p>
                     {% endfor %}
                 </ul>
             </div>
@@ -126,13 +129,15 @@
                             </h3>
 
                             <p>
-                                Учавствовал в баталии, под псевдонимом <a href="/character/{{ match['GameCharacter_id'] }}">{{ match['Name'] | truncate(15, True) }}</a>
+                                Учавствовал в баталии, под псевдонимом <a
+                                    href="/character/{{ match['GameCharacter_id'] }}">{{ match['Name'] | truncate(15,
+                                True) }}</a>
                             </p>
                         </div>
                     </div>
                 </li>
                 {% else %}
-                    <p>Вы ещё не почувствовали запах крови!</p>
+                <p>Вы ещё не почувствовали запах крови!</p>
                 {% endfor %}
             </ul>
         </div>
